@@ -26,9 +26,11 @@ require("lazy").setup({
 	require("plugins.bufferline"),
 	require("plugins.statusline"),
 	require("plugins.autopairs"),
+	require("plugins.surround"),
 	require("plugins.cmp"),
 	require("plugins.formatter"),
 	require("plugins.mason"),
+	require("plugins.git"),
 	{ "lukas-reineke/indent-blankline.nvim" },
 	{"HiPhish/rainbow-delimiters.nvim"},
 	{
@@ -95,16 +97,6 @@ require("lazy").setup({
 		opts = {
 			-- configurations go here
 		},
-	},
-	{
-		"kylechui/nvim-surround",
-		version = "*", -- Use for stability; omit to use `main` branch for the latest features
-		event = "VeryLazy",
-		config = function()
-			require("nvim-surround").setup({
-				-- Configuration here, or leave empty to use defaults
-			})
-		end,
 	},
 	{
 		"ThePrimeagen/harpoon",

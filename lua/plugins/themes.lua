@@ -19,8 +19,10 @@ return {
 		priority = 1000,
 		opts = {},
 	},
+	{dir = "~/onedark"},
 	{
 		dir = "~/onedark.nvim",
+		enabled = false,
 		opts = {
 			palette = "astrodark",
 			background = {
@@ -32,4 +34,7 @@ return {
 			require("astrotheme").setup(opts)
 		end,
 	},
+	{ 'rktjmp/lush.nvim',
+		cmd = {"LushRunTutorial", "Lushify"}
+	}
 }

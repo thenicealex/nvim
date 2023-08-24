@@ -31,12 +31,10 @@ require("lazy").setup({
 	require("plugins.cmp"),
 	require("plugins.formatter"),
 	require("plugins.mason"),
-	-- require("plugins.lsp"),
+	require("plugins.lsp"),
 	require("plugins.git"),
 	require("plugins.tools"),
-	{
-		'nvim-telescope/telescope.nvim', tag = '0.1.2',
-	},
+	require("plugins.telescope"),
 	{
 		"onsails/lspkind.nvim",
 		event = "VeryLazy",

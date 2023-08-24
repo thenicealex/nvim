@@ -6,7 +6,12 @@ return {
 			{ "<leader>cp", "<cmd>CccPick<cr>", desc = "Pick colors" },
 		},
 	},
-	{ "RRethy/vim-illuminate", event = "VeryLazy" },
+	{ "RRethy/vim-illuminate",
+		event = "VeryLazy",
+		init = function ()
+			require("core.utils").lazy_load "vim-illuminate"
+		end,
+  },
 	{
 		"nguyenvukhang/nvim-toggler",
 		keys = { { "<leader>cc", "<cmd>lua require('nvim-toggler').toggle()<cr>", desc = "Invert word" } },
@@ -26,5 +31,7 @@ return {
 			require("nvim-toggler").setup(opts)
 		end,
 	},
-	{ "HiPhish/rainbow-delimiters.nvim" },
+	{ "HiPhish/rainbow-delimiters.nvim",
+		event = "VeryLazy",
+	},
 }

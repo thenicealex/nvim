@@ -1,7 +1,26 @@
 return {
+	-- {
+	-- 	"thenicealex/onedark.nvim",
+	-- 	priority = 1000,
+	-- 	opts = {
+	-- 		palette = "astrodark",
+	-- 		background = {
+	-- 			light = "astrolight",
+	-- 			dark = "astrodark",
+	-- 		},
+	-- 	},
+	-- 	config = function(_, opts)
+	-- 		require("astrotheme").setup(opts)
+	-- 	end,
+	-- },
 	{
-		"thenicealex/onedark.nvim",
+		"folke/tokyonight.nvim",
+		enabled = false,
 		priority = 1000,
+		opts = {},
+	},
+	{
+		dir = "~/onedark.nvim",
 		opts = {
 			palette = "astrodark",
 			background = {
@@ -12,11 +31,5 @@ return {
 		config = function(_, opts)
 			require("astrotheme").setup(opts)
 		end,
-	},
-	{
-		"folke/tokyonight.nvim",
-		lazy = false,
-		priority = 1000,
-		opts = {},
 	},
 }

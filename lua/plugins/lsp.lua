@@ -1,7 +1,7 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
-		lazy = false,
+		event = "VeryLazy",
 		init = function()
 			require("core.utils").lazy_load("nvim-lspconfig")
 		end,
@@ -20,7 +20,7 @@ return {
 	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
-		event = "VeryLazy",
+		event = "LspAttach",
 		version = "*",
 		dependencies = { "SmiteshP/nvim-navic" },
 		opts = {

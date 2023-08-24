@@ -12,4 +12,5 @@ o.tabstop = 2
 o.termguicolors = true
 o.splitright = true
 o.splitbelow = true
+-- o.cmdheight = 0
 

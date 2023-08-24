@@ -153,18 +153,50 @@ return {
 
 		local Separate = { provider = "%=", hl = { bg = onedark_colors.bg } }
 
-		local FileType = {
+		local FileTab = {
+			condition = function()
+				return vim.o.columns > 140
+			end,
 			provider = function()
-				return vim.bo.ft == "" and "{} plain text  " or "{} " .. vim.bo.ft .. " "
+				return "space: " .. vim.o.tabstop .." "
+			end,
+			hl = { fg = onedark_colors.purple, bg = onedark_colors.bg },
+		}
+		local FileType = {
+			condition = function()
+				return vim.o.columns > 140
+			end,
+			provider = function()
+				return vim.bo.ft == "" and "{} plain text  " or "{} " .. vim.bo.ft
 			end,
 			hl = { fg = onedark_colors.blue, bg = onedark_colors.bg },
 		}
 		local FileEncoding = {
+			condition = function()
+				return vim.o.columns > 140
+			end,
 			provider = function()
-				return string.upper(vim.bo.fileencoding) == "" and "" or string.upper(vim.bo.fileencoding) .. "  "
+				return string.upper(vim.bo.fileencoding) == "" and ""
+					or string.upper(vim.bo.fileencoding) .. " "
 			end,
 			hl = { fg = onedark_colors.red, bg = onedark_colors.bg },
 		}
+		local FileSize = {
+			provider = function()
+				-- stackoverflow, compute human readable file size
+				local suffix = { "b", "k", "M", "G", "T", "P", "E" }
+				local fsize = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
+				fsize = (fsize < 0 and 0) or fsize
+				if fsize < 1024 then
+					return fsize .. suffix[1]
+				end
+				local i = math.floor((math.log(fsize) / math.log(1024)))
+				return vim.o.columns > 140 and string.format("%.2g%s", fsize / math.pow(1024, i), suffix[i + 1]) .. " "
+					or ""
+			end,
+			hl = { fg = onedark_colors.orange },
+		}
+
 		-- We're getting minimalists here!
 		local Ruler = {
 			-- %l = current line number
@@ -172,12 +204,24 @@ return {
 			-- %c = column number
 			-- %P = percentage through file of displayed window
 			provider = function()
-				return vim.o.columns > 140 and " Ln %l, Col %c  " or ""
+				return vim.o.columns > 140 and " Ln %l, Col %c  " or " %l:%c %P "
 			end,
 			hl = { bg = onedark_colors.bg },
 		}
 
 		local Git = {
+			on_click = {
+				callback = function()
+					-- If you prefer Lazygit
+					-- use vim.defer_fn() if the callback requires
+					-- opening of a floating window
+					-- (this also applies to telescope)
+					vim.defer_fn(function()
+						print("hello git")
+					end, 100)
+				end,
+				name = "heirline_git",
+			},
 			condition = conditions.is_git_repo,
 
 			init = function(self)
@@ -230,6 +274,21 @@ return {
 				provider = " ",
 			},
 		}
+		local SearchCount = {
+			condition = function()
+				return vim.v.hlsearch ~= 0
+			end,
+			init = function(self)
+				local ok, search = pcall(vim.fn.searchcount)
+				if ok and search.total then
+					self.search = search
+				end
+			end,
+			provider = function(self)
+				local search = self.search
+				return string.format("[%d/%d]", search.current, math.min(search.total, search.maxcount))
+			end,
+		}
 
 		-- return config
 		return {
@@ -241,13 +300,15 @@ return {
 				FileFlags,
 
 				Git,
+				SearchCount,
 
 				Separate,
 
-				Ruler,
-
+				FileTab,
 				FileEncoding,
+				FileSize,
 				FileType,
+				Ruler,
 			},
 		}
 	end,

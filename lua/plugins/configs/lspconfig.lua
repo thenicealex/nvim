@@ -6,21 +6,21 @@ lspconfig.lua_ls.setup({
 	settings = {
 		Lua = {
 			diagnostics = {
-        -- Get the language server to recognize the `vim` global
-        globals = {
-          'vim',
-        },
-      },
+				-- Get the language server to recognize the `vim` global
+				globals = {
+					'vim',
+				},
+			},
 			workspace = {
-        library = {
-          [vim.fn.expand "$VIMRUNTIME/lua"] = true,
-          [vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
-          [vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
-        },
-        maxPreload = 100000,
-        preloadFileSize = 10000,
-      },
+				library = {
+					[vim.fn.expand "$VIMRUNTIME/lua"] = true,
+					[vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
+					[vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
+					[vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+				},
+				maxPreload = 100000,
+				preloadFileSize = 10000,
+			},
 		}
 	}
 })
@@ -30,7 +30,7 @@ lspconfig.lua_ls.setup({
 vim.keymap.set("n", "<space>lp", vim.diagnostic.open_float)
 vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
 vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
+vim.keymap.set("n", "<space>lq", vim.diagnostic.setloclist)
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
@@ -48,16 +48,16 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
 		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
 		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-		vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-		vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
-		vim.keymap.set("n", "<space>wl", function()
+		vim.keymap.set("n", "<space>lwa", vim.lsp.buf.add_workspace_folder, opts)
+		vim.keymap.set("n", "<space>lwr", vim.lsp.buf.remove_workspace_folder, opts)
+		vim.keymap.set("n", "<space>lwl", function()
 			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 		end, opts)
 		vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
-		vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
-		vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
+		vim.keymap.set("n", "<space>lr", vim.lsp.buf.rename, opts)
+		vim.keymap.set({ "n", "v" }, "<space>la", vim.lsp.buf.code_action, opts)
 		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-		vim.keymap.set("n", "<space>f", function()
+		vim.keymap.set("n", "<space>lm", function()
 			vim.lsp.buf.format({ async = true })
 		end, opts)
 	end,

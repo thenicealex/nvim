@@ -3,7 +3,7 @@ local lspconfig = require("lspconfig")
 lspconfig.pyright.setup({})
 lspconfig.clangd.setup({})
 lspconfig.lua_ls.setup({
-	setting = {
+	settings = {
 		Lua = {
 			diagnostics = {
         -- Get the language server to recognize the `vim` global

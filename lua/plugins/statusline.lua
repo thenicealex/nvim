@@ -158,7 +158,7 @@ return {
 				return vim.o.columns > 140
 			end,
 			provider = function()
-				return "space: " .. vim.o.tabstop .." "
+				return "SPACE: " .. vim.o.tabstop .. " "
 			end,
 			hl = { fg = onedark_colors.purple, bg = onedark_colors.bg },
 		}
@@ -167,7 +167,7 @@ return {
 				return vim.o.columns > 140
 			end,
 			provider = function()
-				return vim.bo.ft == "" and "{} plain text  " or "{} " .. vim.bo.ft
+				return vim.bo.ft == "" and "{} plain text " or "{} " .. vim.bo.ft
 			end,
 			hl = { fg = onedark_colors.blue, bg = onedark_colors.bg },
 		}
@@ -176,23 +176,25 @@ return {
 				return vim.o.columns > 140
 			end,
 			provider = function()
-				return string.upper(vim.bo.fileencoding) == "" and ""
-					or string.upper(vim.bo.fileencoding) .. " "
+				return string.upper(vim.bo.fileencoding) == "" and "" or string.upper(vim.bo.fileencoding) .. " "
 			end,
 			hl = { fg = onedark_colors.red, bg = onedark_colors.bg },
 		}
 		local FileSize = {
+			condition = function()
+				return vim.o.columns > 140
+			end,
 			provider = function()
 				-- stackoverflow, compute human readable file size
 				local suffix = { "b", "k", "M", "G", "T", "P", "E" }
 				local fsize = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
 				fsize = (fsize < 0 and 0) or fsize
+				if fsize == 0 then return fsize .. suffix[1].." " end
 				if fsize < 1024 then
-					return fsize .. suffix[1]
+					return string.format(" %g%s", fsize, suffix[1]).." "
 				end
 				local i = math.floor((math.log(fsize) / math.log(1024)))
-				return vim.o.columns > 140 and string.format("%.2g%s", fsize / math.pow(1024, i), suffix[i + 1]) .. " "
-					or ""
+				return string.format(" %.2g%s", fsize / math.pow(1024, i), suffix[i + 1]) .. " "
 			end,
 			hl = { fg = onedark_colors.orange },
 		}
@@ -204,7 +206,7 @@ return {
 			-- %c = column number
 			-- %P = percentage through file of displayed window
 			provider = function()
-				return vim.o.columns > 140 and " Ln %l, Col %c  " or " %l:%c %P "
+				return vim.o.columns > 140 and " Ln %l, Col %c " or " %l:%c %P "
 			end,
 			hl = { bg = onedark_colors.bg },
 		}
@@ -288,27 +290,44 @@ return {
 				local search = self.search
 				return string.format("[%d/%d]", search.current, math.min(search.total, search.maxcount))
 			end,
+			hl = { fg = onedark_colors.red },
+		}
+
+		local LSPActive = {
+			condition = conditions.lsp_attached,
+			update = { "LspAttach", "LspDetach" },
+
+			-- You can keep it simple,
+			-- provider = " [LSP]",
+
+			-- Or complicate things a bit and get the servers names
+			provider = function()
+				local names = {}
+				for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+					table.insert(names, server.name)
+				end
+				return " [" .. table.concat(names, " ") .. "]"
+			end,
+			hl = { fg = onedark_colors.green, bold = true },
 		}
 
 		-- return config
 		return {
 			statusline = {
 				ViMode,
-
-				-- FileNameBlock,
 				FileInfo,
 				FileFlags,
-
 				Git,
 				SearchCount,
 
 				Separate,
 
+				LSPActive,
+				Ruler,
 				FileTab,
 				FileEncoding,
-				FileSize,
 				FileType,
-				Ruler,
+				FileSize,
 			},
 		}
 	end,

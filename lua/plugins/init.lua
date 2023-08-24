@@ -25,16 +25,21 @@ require("lazy").setup({
 	require("plugins.themes"),
 	require("plugins.bufferline"),
 	require("plugins.statusline"),
+	require("plugins.indentline"),
 	require("plugins.autopairs"),
 	require("plugins.surround"),
 	require("plugins.cmp"),
 	require("plugins.formatter"),
 	require("plugins.mason"),
+	-- require("plugins.lsp"),
 	require("plugins.git"),
-	{ "lukas-reineke/indent-blankline.nvim" },
-	{"HiPhish/rainbow-delimiters.nvim"},
+	require("plugins.tools"),
+	{
+		'nvim-telescope/telescope.nvim', tag = '0.1.2',
+	},
 	{
 		"onsails/lspkind.nvim",
+		event = "VeryLazy",
 		opts = {
 			mode = "symbol",
 			symbol_map = {
@@ -91,16 +96,13 @@ require("lazy").setup({
 		name = "barbecue",
 		event = "VeryLazy",
 		version = "*",
-		dependencies = {
-			"SmiteshP/nvim-navic",
-		},
+		dependencies = { "SmiteshP/nvim-navic" },
 		opts = {
 			-- configurations go here
 		},
 	},
 	{
 		"ThePrimeagen/harpoon",
-		-- event = "VeryLazy",
 		keys = {
 			{
 				"<leader>mf",

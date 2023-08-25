@@ -1,5 +1,14 @@
 return {
 	{
+		"echasnovski/mini.cursorword",
+		version = "*",
+		event = "VeryLazy",
+		opts = {},
+		config = function(_, opts)
+			require("mini.cursorword").setup(opts)
+		end,
+	},
+	{
 		"uga-rosa/ccc.nvim",
 		keys = {
 			{ "<leader>ct", "<cmd>CccHighlighterToggle<cr>", desc = "Hightlighte colors" },
@@ -25,7 +34,7 @@ return {
 			require("nvim-toggler").setup(opts)
 		end,
 	},
-	{ "HiPhish/rainbow-delimiters.nvim", event = "VeryLazy" },
+	{ "HiPhish/rainbow-delimiters.nvim" },
 	{
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },

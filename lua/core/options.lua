@@ -12,6 +12,7 @@ o.tabstop = 2
 o.termguicolors = true
 o.splitright = true
 o.splitbelow = true
+o.laststatus = 3
 -- o.cmdheight = 0
 -- o.list = true
 

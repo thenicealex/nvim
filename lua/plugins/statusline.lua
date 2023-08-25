@@ -168,6 +168,9 @@ return {
 				return vim.o.columns > 140
 			end,
 			provider = function()
+				if vim.bo.ft == "NvimTree" then
+					return ""
+				end
 				return vim.bo.ft == "" and "{} plain text " or "{} " .. vim.bo.ft
 			end,
 			hl = { fg = onedark_colors.blue, bg = onedark_colors.bg },
@@ -353,7 +356,7 @@ return {
 				provider = function(self)
 					return self.info > 0 and (self.info_icon .. self.info .. " ")
 				end,
-				hl = { fg = onedark_colors.green},
+				hl = { fg = onedark_colors.green },
 			},
 			{
 				provider = function(self)

@@ -1,28 +1,63 @@
 -- Setup language servers.
 local lspconfig = require("lspconfig")
-lspconfig.pyright.setup({})
-lspconfig.clangd.setup({})
+-- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+local on_attach = function(client, bufnr)
+	client.server_capabilities.documentFormattingProvider = false
+	client.server_capabilities.documentRangeFormattingProvider = false
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+capabilities.textDocument.completion.completionItem = {
+	documentationFormat = { "markdown", "plaintext" },
+	snippetSupport = true,
+	preselectSupport = true,
+	insertReplaceSupport = true,
+	labelDetailsSupport = true,
+	deprecatedSupport = true,
+	commitCharactersSupport = true,
+	tagSupport = { valueSet = { 1 } },
+	resolveSupport = {
+		properties = {
+			"documentation",
+			"detail",
+			"additionalTextEdits",
+		},
+	},
+}
+
+lspconfig.pyright.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
+lspconfig.clangd.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
+})
 lspconfig.lua_ls.setup({
+	on_attach = on_attach,
+	capabilities = capabilities,
 	settings = {
 		Lua = {
 			diagnostics = {
 				-- Get the language server to recognize the `vim` global
 				globals = {
-					'vim',
+					"vim",
 				},
 			},
 			workspace = {
 				library = {
-					[vim.fn.expand "$VIMRUNTIME/lua"] = true,
-					[vim.fn.expand "$VIMRUNTIME/lua/vim/lsp"] = true,
-					[vim.fn.stdpath "data" .. "/lazy/ui/nvchad_types"] = true,
-					[vim.fn.stdpath "data" .. "/lazy/lazy.nvim/lua/lazy"] = true,
+					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+					[vim.fn.stdpath("data") .. "/lazy/ui/nvchad_types"] = true,
+					[vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
 				},
 				maxPreload = 100000,
 				preloadFileSize = 10000,
 			},
-		}
-	}
+		},
+	},
 })
 
 -- Global mappings.

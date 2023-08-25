@@ -3,7 +3,12 @@ local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
 	return
 end
-vim.api.nvim_set_hl(0,"FloatBorder",{fg = "#61afef",bg = "#1a1d23"})
+
+-- If you want insert `(` after select function or method item
+local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
+
+vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#61afef", bg = "#1a1d23" })
 local border_opts = {
 	border = "rounded",
 	scrollbar = false,
@@ -17,14 +22,15 @@ end
 
 cmp.setup.cmdline({ "/", "?" }, {
 	mapping = cmp.mapping.preset.cmdline(),
-	sources = { { name = "buffer" }, },
+	sources = { { name = "buffer" } },
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
 cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({
-		{ name = "path" }, }, { { name = "cmdline" }, }),
+		{ name = "path" },
+	}, { { name = "cmdline" } }),
 })
 local formatting_style = {
 	-- default fields order i.e completion word + item.kind + item.kind icons
@@ -112,5 +118,9 @@ return {
 		{ name = "luasnip", priority = 750 },
 		{ name = "buffer", priority = 500 },
 		{ name = "path", priority = 250 },
+		-- {
+		--     name = "dictionary",
+		--     keyword_length = 3,
+		--   },
 	}),
 }

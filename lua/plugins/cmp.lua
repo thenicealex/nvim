@@ -40,6 +40,15 @@ return {
 			"hrsh7th/cmp-nvim-lsp",
 			"hrsh7th/cmp-nvim-lua",
 			"hrsh7th/cmp-cmdline",
+			{
+				"uga-rosa/cmp-dictionary",
+				opts = {},
+				config = function(_, opts)
+					local cmp_dic = require("cmp_dictionary")
+					cmp_dic.setup(opts)
+					cmp_dic.switcher({ spelllang = { en = "~/american_english.dic" } })
+				end,
+			},
 		},
 		event = "InsertEnter",
 		opts = function()

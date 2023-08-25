@@ -25,14 +25,14 @@ return {
 		dir = "~/onedark.nvim",
 		enabled = true,
 		opts = {
-			palette = "astrodark",
+			palette = "onedark",
 			background = {
 				light = "astrolight",
-				dark = "astrodark",
+				dark = "onedark",
 			},
 		},
 		config = function(_, opts)
-			require("astrotheme").setup(opts)
+			require("onedark").setup(opts)
 		end,
 	},
 	{ 'rktjmp/lush.nvim',

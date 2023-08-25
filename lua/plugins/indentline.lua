@@ -3,7 +3,7 @@ return {
 		"echasnovski/mini.indentscope",
 		version = "*",
 		event = "VeryLazy",
-		opts = {},
+		opts = { },
 		config = function(opts)
 			require("mini.indentscope").setup(opts)
 		end,

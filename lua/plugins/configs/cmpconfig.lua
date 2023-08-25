@@ -8,7 +8,7 @@ end
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#61afef", bg = "#1a1d23" })
+vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#61afef", bg = "#1E222A" })
 local border_opts = {
 	border = "rounded",
 	scrollbar = false,

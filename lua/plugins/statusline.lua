@@ -16,7 +16,7 @@ return {
 			purple = "#c678dd",
 			cyan = "#56b6c2",
 			gray = "#abb2bf",
-			bg = "#1a1d23",
+			bg = "#1E222A",
 		}
 
 		local ViMode = {
@@ -44,8 +44,8 @@ return {
 					vs = "Vs",
 					V = "V-LINE",
 					Vs = "V-LINE",
-					["\22"] = "^V",
-					["\22s"] = "^V",
+					["\22"] = "V-BLOCK",
+					["\22s"] = "V-BLOCK",
 					s = "SELECT",
 					S = "S-LINE",
 					["\19"] = "^S",
@@ -71,7 +71,7 @@ return {
 					i = "#98c379",
 					v = "#56b6c2",
 					V = "#56b6c2",
-					["\22"] = "56b6c2",
+					["\22"] = "#56b6c2",
 					c = "#e5c07b",
 					s = "#c678dd",
 					S = "#c678dd",
@@ -124,7 +124,7 @@ return {
 					return icon
 				end,
 				hl = function(self)
-					return { fg = self.icon_color, bg = onedark_colors.bg }
+					return { fg = self.icon_color }
 				end,
 			},
 			{
@@ -132,7 +132,6 @@ return {
 					local filename = (vim.fn.expand("%") == "" and "Empty ") or vim.fn.expand("%:t")
 					return " " .. filename .. " "
 				end,
-				hl = { bg = onedark_colors.bg },
 			},
 		}
 		local FileFlags = {
@@ -152,7 +151,7 @@ return {
 			},
 		}
 
-		local Separate = { provider = "%=", hl = { bg = onedark_colors.bg } }
+		local Separate = { provider = "%=" }
 
 		local FileTab = {
 			condition = function()
@@ -161,7 +160,7 @@ return {
 			provider = function()
 				return "SPACE: " .. vim.o.tabstop .. " "
 			end,
-			hl = { fg = onedark_colors.cyan, bg = onedark_colors.bg },
+			hl = { fg = onedark_colors.cyan },
 		}
 		local FileType = {
 			condition = function()
@@ -173,7 +172,7 @@ return {
 				end
 				return vim.bo.ft == "" and "{} plain text " or "{} " .. vim.bo.ft
 			end,
-			hl = { fg = onedark_colors.blue, bg = onedark_colors.bg },
+			hl = { fg = onedark_colors.blue },
 		}
 		local FileEncoding = {
 			condition = function()
@@ -182,7 +181,7 @@ return {
 			provider = function()
 				return string.upper(vim.bo.fileencoding) == "" and "" or string.upper(vim.bo.fileencoding) .. " "
 			end,
-			hl = { fg = onedark_colors.red, bg = onedark_colors.bg },
+			hl = { fg = onedark_colors.red },
 		}
 		local FileSize = {
 			condition = function()
@@ -214,7 +213,6 @@ return {
 			provider = function()
 				return vim.o.columns > 140 and " Ln %l, Col %c " or " %l:%c %P "
 			end,
-			hl = { bg = onedark_colors.bg },
 		}
 
 		local Git = {
@@ -294,7 +292,7 @@ return {
 			end,
 			provider = function(self)
 				local search = self.search
-				return string.format("[%d/%d]", search.current, math.min(search.total, search.maxcount))
+				return string.format(" [%d/%d]", search.current, math.min(search.total, search.maxcount))
 			end,
 			hl = { fg = onedark_colors.red },
 		}
@@ -312,7 +310,7 @@ return {
 				for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
 					table.insert(names, server.name)
 				end
-				return " [" .. table.concat(names, " ") .. "]"
+				return " [" .. table.concat(names, " ") .. "] "
 			end,
 			hl = { fg = onedark_colors.green, bold = true },
 		}
@@ -365,7 +363,7 @@ return {
 				hl = { fg = onedark_colors.purple },
 			},
 			{
-				provider = "",
+				provider = " ",
 			},
 		}
 
@@ -380,9 +378,9 @@ return {
 
 				Separate,
 
-				LSPActive,
-				Diagnostics,
 				Ruler,
+				Diagnostics,
+				LSPActive,
 				FileTab,
 				FileEncoding,
 				FileType,

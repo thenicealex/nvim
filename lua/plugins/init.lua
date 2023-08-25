@@ -15,7 +15,7 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	"nvim-lua/plenary.nvim",
+	{"nvim-lua/plenary.nvim", event = "VeryLazy"},
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 	require("plugins.flash"),
 	require("plugins.nvimtree"),

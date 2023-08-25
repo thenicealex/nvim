@@ -64,6 +64,9 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
+map({"n", "v"}, "<localleader>cr","<cmd> set rnu! <CR>", {desc = "Toggle relative number"})
+map({"n", "v"},"<localleader>cn", "<cmd> set nu! <CR>", {desc = "Toggle line number" })
+
 
 -- lazy
 map("n", "<localleader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })

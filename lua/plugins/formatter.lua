@@ -1,6 +1,6 @@
 return {
 	"mhartington/formatter.nvim",
-	keys = { { "<leader>fm", "<cmd>Format<cr>", desc = "Format file" } },
+	keys = { { "<localleader>fm", "<cmd>Format<cr>", desc = "Format file" } },
 	opts = {
 		filetype = {
 			lua = {

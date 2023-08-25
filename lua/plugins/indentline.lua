@@ -3,6 +3,7 @@ return {
 	init = function()
 		require("core.utils").lazy_load("indent-blankline.nvim")
 	end,
+	event = { "BufReadPost", "BufNewFile" },
 	enabled = true,
 	opts = {
 		enabled = true,

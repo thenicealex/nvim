@@ -1,8 +1,10 @@
 return {
-	'akinsho/bufferline.nvim',
+	"akinsho/bufferline.nvim",
 	version = "*",
 	event = "VeryLazy",
-	-- opts = {}，
+	opts = {
+		-- offsets = {{ filetype = "NvimTree", text = "Explorer" },},
+	},
 	config = function(_, opts)
 		require("bufferline").setup(opts)
 	end,

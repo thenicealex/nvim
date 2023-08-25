@@ -19,10 +19,11 @@ return {
 		priority = 1000,
 		opts = {},
 	},
-	{dir = "~/onedark"},
+	{dir = "~/onedark",
+	enabled = false},
 	{
 		dir = "~/onedark.nvim",
-		enabled = false,
+		enabled = true,
 		opts = {
 			palette = "astrodark",
 			background = {

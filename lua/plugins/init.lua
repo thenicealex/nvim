@@ -18,7 +18,7 @@ require("lazy").setup({
 	"nvim-lua/plenary.nvim",
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
 	require("plugins.flash"),
-	require("plugins.neo-tree"),
+	require("plugins.nvimtree"),
 	require("plugins.comment"),
 	require("plugins.treesitter"),
 	require("plugins.which-key"),

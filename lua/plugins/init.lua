@@ -23,12 +23,12 @@ require("lazy").setup({
 	require("plugins.treesitter"),
 	require("plugins.which-key"),
 	require("plugins.themes"),
-	require("plugins.bufferline"),
+	-- require("plugins.bufferline"),
 	require("plugins.statusline"),
 	require("plugins.indentline"),
 	require("plugins.autopairs"),
 	require("plugins.surround"),
-	require("plugins.cmp"),
+	require("plugins.nvim-cmp"),
 	require("plugins.formatter"),
 	require("plugins.mason"),
 	require("plugins.lsp"),
@@ -88,50 +88,5 @@ require("lazy").setup({
 				},
 			})
 		end,
-	},
-	{
-		"ThePrimeagen/harpoon",
-		keys = {
-			{
-				"<leader>mf",
-				mode = { "n" },
-				function()
-					require("harpoon.mark").add_file()
-				end,
-				desc = "Mark file",
-			},
-			{
-				"<leader>ml",
-				mode = { "n" },
-				function()
-					require("harpoon.ui").toggle_quick_menu()
-				end,
-				desc = "Mark menu",
-			},
-			{
-				"1",
-				mode = { "n" },
-				function()
-					require("harpoon.ui").nav_file(1)
-				end,
-				desc = "Mark menu",
-			},
-			{
-				"2",
-				mode = { "n" },
-				function()
-					require("harpoon.ui").nav_file(2)
-				end,
-				desc = "Mark menu",
-			},
-			{
-				"3",
-				mode = { "n" },
-				function()
-					require("harpoon.ui").nav_file(3)
-				end,
-				desc = "Mark menu",
-			},
-		},
 	},
 })

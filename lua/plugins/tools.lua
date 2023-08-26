@@ -34,7 +34,7 @@ return {
 			require("nvim-toggler").setup(opts)
 		end,
 	},
-	{ "HiPhish/rainbow-delimiters.nvim" },
+	{ "HiPhish/rainbow-delimiters.nvim", event = "VeryLazy" },
 	{
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },
@@ -73,21 +73,21 @@ return {
 				end,
 				{ desc = "Pick a window" },
 			},
-				{
-					"n",
-					"<localleader>ws",
-					function()
-						local picker = require("window-picker")
-						local window = picker.pick_window({
-							include_current_win = false,
-						})
-						local target_buffer = vim.fn.winbufnr(window)
-						-- Set the target window to contain current buffer
-						vim.api.nvim_win_set_buf(window, 0)
-						-- Set current window to contain target buffer
-						vim.api.nvim_win_set_buf(0, target_buffer)
-					end,
-					{ desc = "Swap windows" },
+			{
+				"n",
+				"<localleader>ws",
+				function()
+					local picker = require("window-picker")
+					local window = picker.pick_window({
+						include_current_win = false,
+					})
+					local target_buffer = vim.fn.winbufnr(window)
+					-- Set the target window to contain current buffer
+					vim.api.nvim_win_set_buf(window, 0)
+					-- Set current window to contain target buffer
+					vim.api.nvim_win_set_buf(0, target_buffer)
+				end,
+				{ desc = "Swap windows" },
 			},
 		},
 		config = function()
@@ -98,7 +98,7 @@ return {
 					-- filter using buffer options
 					bo = {
 						-- if the file type is one of following, the window will be ignored
-						filetype = { "NvimTree","neo-tree", "neo-tree-popup", "notify", "quickfix" },
+						filetype = { "NvimTree", "neo-tree", "neo-tree-popup", "notify", "quickfix" },
 
 						-- if the buffer type is one of following, the window will be ignored
 						buftype = { "terminal" },
@@ -107,5 +107,50 @@ return {
 				other_win_hl_color = "#e35e4f",
 			})
 		end,
+	},
+	{
+		"ThePrimeagen/harpoon",
+		keys = {
+			{
+				"<leader>mf",
+				mode = { "n" },
+				function()
+					require("harpoon.mark").add_file()
+				end,
+				desc = "Mark file",
+			},
+			{
+				"<leader>ml",
+				mode = { "n" },
+				function()
+					require("harpoon.ui").toggle_quick_menu()
+				end,
+				desc = "Mark menu",
+			},
+			{
+				"1",
+				mode = { "n" },
+				function()
+					require("harpoon.ui").nav_file(1)
+				end,
+				desc = "Mark menu",
+			},
+			{
+				"2",
+				mode = { "n" },
+				function()
+					require("harpoon.ui").nav_file(2)
+				end,
+				desc = "Mark menu",
+			},
+			{
+				"3",
+				mode = { "n" },
+				function()
+					require("harpoon.ui").nav_file(3)
+				end,
+				desc = "Mark menu",
+			},
+		},
 	},
 }

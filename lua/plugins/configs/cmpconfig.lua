@@ -8,7 +8,8 @@ end
 local cmp_autopairs = require("nvim-autopairs.completion.cmp")
 cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
 
-vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#61afef", bg = "#1E222A" })
+
+-- vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#61afef", bg = "#1E222A" })
 local border_opts = {
 	border = "rounded",
 	scrollbar = false,
@@ -95,9 +96,7 @@ return {
 		["<C-x>"] = cmp.mapping(
 			cmp.mapping.complete({
 				config = {
-					sources = cmp.config.sources({
-						{ name = "dictionary" },
-					}),
+					sources = cmp.config.sources({ { name = "dictionary" } }),
 				},
 			}),
 			{ "i" }
@@ -113,15 +112,20 @@ return {
 				fallback()
 			end
 		end, { "i", "s" }),
-		["<S-Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.config.disable,
+		-- ["<S-Tab>"] = cmp.mapping(function(fallback)
+		-- 	if cmp.visible() then
+		-- 		cmp.select_prev_item()
+		-- 	elseif luasnip.jumpable(-1) then
+		-- 		luasnip.jump(-1)
+		-- 	else
+		-- 		fallback()
+		-- 	end
+		-- end, { "i", "s" }),
+	},
+	completion = {
+		-- Automatically select the first item
+		completeopt = "menu,menuone,noinsert",
 	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp", priority = 1000 },
@@ -152,9 +156,5 @@ return {
 			},
 		},
 		{ name = "path", priority = 250 },
-		-- {
-		--     name = "dictionary",
-		--     keyword_length = 3,
-		--   },
 	}),
 }

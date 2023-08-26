@@ -158,7 +158,7 @@ return {
 				return vim.o.columns > 140
 			end,
 			provider = function()
-				return "SPACE: " .. vim.o.tabstop .. " "
+				return "SPACE: " .. vim.o.tabstop
 			end,
 			hl = { fg = onedark_colors.cyan },
 		}
@@ -170,7 +170,7 @@ return {
 				if vim.bo.ft == "NvimTree" then
 					return ""
 				end
-				return vim.bo.ft == "" and "{} plain text " or "{} " .. vim.bo.ft
+				return vim.bo.ft == "" and "plain text " or vim.bo.ft
 			end,
 			hl = { fg = onedark_colors.blue },
 		}
@@ -179,7 +179,7 @@ return {
 				return vim.o.columns > 140
 			end,
 			provider = function()
-				return string.upper(vim.bo.fileencoding) == "" and "" or string.upper(vim.bo.fileencoding) .. " "
+				return string.upper(vim.bo.fileencoding) == "" and "" or " "..string.upper(vim.bo.fileencoding) .. " "
 			end,
 			hl = { fg = onedark_colors.red },
 		}
@@ -192,9 +192,6 @@ return {
 				local suffix = { "b", "k", "M", "G", "T", "P", "E" }
 				local fsize = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
 				fsize = (fsize < 0 and 0) or fsize
-				if fsize == 0 then
-					return fsize .. suffix[1] .. " "
-				end
 				if fsize < 1024 then
 					return string.format(" %g%s", fsize, suffix[1]) .. " "
 				end

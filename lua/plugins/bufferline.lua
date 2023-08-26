@@ -2,16 +2,12 @@ return {
 	"akinsho/bufferline.nvim",
 	version = "*",
 	event = "VeryLazy",
+	enabled = false,
 	opts = {
 		options = {
-			mode = "buffers",
 			-- buffer_close_icon = "",
-			indicator = {
-				icon = "▎", -- this should be omitted if indicator style is not 'icon'
-				style = "icon",
-			},
 			always_show_bufferline = false,
-			offsets = { { filetype = "NvimTree", text = "File Explorer", separator = true } },
+			offsets = { { filetype = "NvimTree", text = "", separator = true } },
 		},
 		highlights = {},
 	},

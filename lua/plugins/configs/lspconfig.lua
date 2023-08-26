@@ -26,7 +26,7 @@ capabilities.textDocument.completion.completionItem = {
 		},
 	},
 }
-
+-- ERROR
 lspconfig.pyright.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -97,3 +97,20 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end, opts)
 	end,
 })
+
+vim.diagnostic.config({
+		virtual_text = true,
+		virtual_lines = {
+			only_current_line = true,
+		},
+		update_in_insert = false,
+		underline = true,
+		severity_sort = true,
+		float = {
+			focusable = true,
+			border = "rounded",
+			source = "always",
+			header = "",
+			prefix = "",
+		},
+	})

@@ -92,6 +92,16 @@ return {
 		["<C-y>"] = cmp.config.disable,
 		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["<C-x>"] = cmp.mapping(
+			cmp.mapping.complete({
+				config = {
+					sources = cmp.config.sources({
+						{ name = "dictionary" },
+					}),
+				},
+			}),
+			{ "i" }
+		),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
@@ -115,8 +125,32 @@ return {
 	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp", priority = 1000 },
-		{ name = "luasnip", priority = 750 },
-		{ name = "buffer", priority = 500 },
+		{
+			name = "luasnip",
+			priority = 750,
+			option = { use_show_condition = true },
+			entry_filter = function()
+				local context = require("cmp.config.context")
+				local string_ctx = context.in_treesitter_capture("string") or context.in_syntax_group("String")
+				local comment_ctx = context.in_treesitter_capture("comment") or context.in_syntax_group("Comment")
+
+				--   Returning `true` will keep the entry, while returning `false` will remove it.
+				return not string_ctx and not comment_ctx
+			end,
+		},
+		{
+			name = "buffer",
+			priority = 500,
+			option = {
+				get_bufnrs = function()
+					local bufs = {}
+					for _, win in ipairs(vim.api.nvim_list_wins()) do
+						bufs[vim.api.nvim_win_get_buf(win)] = true
+					end
+					return vim.tbl_keys(bufs)
+				end,
+			},
+		},
 		{ name = "path", priority = 250 },
 		-- {
 		--     name = "dictionary",

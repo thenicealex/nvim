@@ -362,7 +362,7 @@ return {
 		FileInfo,
 		FileFlags,
 		Git,
-		SearchCount,
+		-- SearchCount,
 
 		Separate,
 

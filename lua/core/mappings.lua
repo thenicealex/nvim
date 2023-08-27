@@ -3,7 +3,7 @@ local function map(mode, lhs, rhs, opts)
 	if opts then
 		options = vim.tbl_extend("force", options, opts)
 	end
-	vim.keymaps.set(mode, lhs, rhs, options)
+	vim.keymap.set(mode, lhs, rhs, options)
 end
 
 -- General
@@ -79,4 +79,3 @@ map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<localleader>bo", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<localleader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
--- map("n", "<leader>b", "<cmd>FlyBuf<cr>", { desc = "Buffer Pick" })

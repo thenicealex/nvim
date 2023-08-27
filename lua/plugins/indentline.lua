@@ -2,6 +2,7 @@ return {
 	{
 		"echasnovski/mini.indentscope",
 		version = "*",
+		enabled = true,
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = {

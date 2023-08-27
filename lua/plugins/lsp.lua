@@ -13,6 +13,7 @@ return {
 		"j-hui/fidget.nvim",
 		tag = "legacy",
 		event = "LspAttach",
+		enabled = false,
 		opts = {
 			-- options
 		},
@@ -20,6 +21,7 @@ return {
 	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
+		-- enabled = false,
 		event = "LspAttach",
 		version = "*",
 		dependencies = { "SmiteshP/nvim-navic" },
@@ -27,4 +29,20 @@ return {
 			-- configurations go here
 		},
 	},
+	{
+    'nvimdev/lspsaga.nvim',
+		event = 'LspAttach',
+		keys = {},
+		opts = {
+			symbol_in_winbar ={enable = false},
+			lightbulb ={enable = false},
+		},
+    config = function(_,opts)
+        require('lspsaga').setup(opts)
+    end,
+    dependencies = {
+        'nvim-treesitter/nvim-treesitter', -- optional
+        'nvim-tree/nvim-web-devicons'     -- optional
+    }
+}
 }

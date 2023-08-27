@@ -4,14 +4,12 @@ return {
 		"windwp/nvim-spectre",
 		keys = {
 			{
-				"n",
 				"<localleader>S",
 				'<cmd>lua require("spectre").toggle()<CR>',
 				desc = "Toggle Spectre",
 			},
 
 			{
-				"n",
 				"<leader>sw",
 				'<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
 				desc = "Search current word",
@@ -33,13 +31,13 @@ return {
 	{
 		"uga-rosa/ccc.nvim",
 		keys = {
-			{ "<leader>ct", "<cmd>CccHighlighterToggle<cr>", desc = "Hightlighte colors" },
-			{ "<leader>cp", "<cmd>CccPick<cr>", desc = "Pick colors" },
+			{ "<localleader>ct", "<cmd>CccHighlighterToggle<cr>", desc = "Hightlighte colors" },
+			{ "<localleader>cp", "<cmd>CccPick<cr>", desc = "Pick colors" },
 		},
 	},
 	{
 		"nguyenvukhang/nvim-toggler",
-		keys = { { "<leader>cc", "<cmd>lua require('nvim-toggler').toggle()<cr>", desc = "Invert word" } },
+		keys = { { "<localleader>cw", "<cmd>lua require('nvim-toggler').toggle()<cr>", desc = "Invert word" } },
 		opts = {
 			-- your own inverses
 			inverses = {
@@ -251,7 +249,7 @@ return {
 	{
 		"glepnir/flybuf.nvim",
 		cmd = "FlyBuf",
-		keys = { { "n", "<leader>b", "<cmd>FlyBuf<cr>", desc = "Pick Buffer" } },
+		keys = {  {"<leader>b", "<cmd>FlyBuf<cr>"}  },
 		config = function()
 			require("flybuf").setup({})
 		end,

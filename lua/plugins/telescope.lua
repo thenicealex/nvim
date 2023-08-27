@@ -4,11 +4,11 @@ return {
 	cmd = "Telescope",
 	keys = {
 		{ "<leader>f", "<cmd>Telescope find_files<cr>" },
-		{ "<leader>B", "<cmd>Telescope buffers<cr>" },
+		{ "<leader>B", "<cmd>Telescope buffers<cr>", desc = "Telescope buffers" },
 		{ "<leader>s", "<cmd>Telescope current_buffer_fuzzy_find<cr>" },
-		{ "<localleader>ss", "<cmd>Telescope live_grep<cr>" },
-		{ "<localleader>fh", "<cmd>Telescope help_tags<cr>" },
-		{ "<localleader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<cr>" },
+		{ "<localleader>ss", "<cmd>Telescope live_grep<cr>",desc = "global search" },
+		{ "<localleader>fh", "<cmd>Telescope help_tags<cr>", desc = "help doc" },
+		{ "<localleader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<cr>", desc = "find all file" },
 	},
 	opts = {
 		defaults = {

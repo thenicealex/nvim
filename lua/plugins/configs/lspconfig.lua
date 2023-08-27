@@ -1,3 +1,4 @@
+---@diagnostic disable: undefined-global
 -- Setup language servers.
 local lspconfig = require("lspconfig")
 -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -61,10 +62,10 @@ lspconfig.lua_ls.setup({
 
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set("n", "<space>lp", vim.diagnostic.open_float)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
-vim.keymap.set("n", "<space>lq", vim.diagnostic.setloclist)
+vim.keymap.set("n", "<leader>lp", vim.diagnostic.open_float, {desc = "Open diagnostic"})
+vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, {desc = "Prev diagnostic"})
+vim.keymap.set("n", "]d", vim.diagnostic.goto_next, {desc = "Next diagnostic"})
+vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, {desc = "Loclist diagnostic"})
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
@@ -77,23 +78,24 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
 		local opts = { buffer = ev.buf }
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, opts)
-		vim.keymap.set("n", "<space>lwa", vim.lsp.buf.add_workspace_folder, opts)
-		vim.keymap.set("n", "<space>lwr", vim.lsp.buf.remove_workspace_folder, opts)
-		vim.keymap.set("n", "<space>lwl", function()
-			print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-		end, opts)
-		vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
-		vim.keymap.set("n", "<space>lr", vim.lsp.buf.rename, opts)
-		vim.keymap.set({ "n", "v" }, "<space>la", vim.lsp.buf.code_action, opts)
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
-		vim.keymap.set("n", "<space>lm", function()
+		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, vim.tbl_extend("force", opts, {desc = "Rename"}))
+		vim.keymap.set({ "n", "v" }, "<leader>la", vim.lsp.buf.code_action, vim.tbl_extend("force", opts, {desc = "Code action"}))
+		vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, {desc = "Hover"}))
+		vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, {desc = "Definition"}))
+		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, {desc = "Declaration"}))
+		vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, {desc = "References"}))
+		vim.keymap.set("n", "gi", vim.lsp.buf.implementation, vim.tbl_extend("force", opts, {desc = "Implementation"}))
+		vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, vim.tbl_extend("force", opts, {desc = "Signature_help"}))
+		vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, vim.tbl_extend("force", opts, {desc = "Type definition"}))
+
+		vim.keymap.set("n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, vim.tbl_extend("force", opts, {desc = "Add workspace folder"}))
+		vim.keymap.set("n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, vim.tbl_extend("force", opts, {desc = "Remove workspace folder"}))
+		vim.keymap.set("n", "<leader>lwl", function()
+			print(vim.inspect(vim.lsp.buf.list_workleader_folders()))
+		end, vim.tbl_extend("force", opts, {desc = "List workleader folders"}))
+		vim.keymap.set("n", "<leader>lm", function()
 			vim.lsp.buf.format({ async = true })
-		end, opts)
+		end, vim.tbl_extend("force", opts, {desc = "Lsp format"}))
 	end,
 })
 

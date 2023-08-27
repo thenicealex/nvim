@@ -1,4 +1,26 @@
 return {
+	{ "HiPhish/rainbow-delimiters.nvim", event = "VeryLazy" },
+	{
+		"windwp/nvim-spectre",
+		keys = {
+			{
+				"n",
+				"<localleader>S",
+				'<cmd>lua require("spectre").toggle()<CR>',
+				desc = "Toggle Spectre",
+			},
+
+			{
+				"n",
+				"<leader>sw",
+				'<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
+				desc = "Search current word",
+			},
+		},
+		config = function()
+			require("spectre").setup()
+		end,
+	},
 	{
 		"echasnovski/mini.cursorword",
 		version = "*",
@@ -27,14 +49,13 @@ return {
 			},
 			-- removes the default <leader>i keymap
 			remove_default_keybinds = true,
-			-- removes the default set of inverses
+			-- removes the default set o f inverses
 			remove_default_inverses = true,
 		},
 		config = function(_, opts)
 			require("nvim-toggler").setup(opts)
 		end,
 	},
-	{ "HiPhish/rainbow-delimiters.nvim", event = "VeryLazy" },
 	{
 		"folke/todo-comments.nvim",
 		cmd = { "TodoTrouble", "TodoTelescope" },
@@ -49,64 +70,6 @@ return {
       { "<localleader>st", "<cmd>TodoTelescope<cr>", desc = "Todo" },
       { "<localleader>sT", "<cmd>TodoTelescope keywords=TODO,FIX,FIXME<cr>", desc = "Todo/Fix/Fixme" },
     },
-	},
-	{
-		"windwp/nvim-spectre",
-		event = "BufRead",
-		config = function()
-			require("spectre").setup()
-		end,
-	},
-	{
-		"s1n7ax/nvim-window-picker",
-		version = "1.*",
-		keys = {
-			{
-				"n",
-				"<localleader>wp",
-				function()
-					local picker = require("window-picker")
-					local picked_window_id = picker.pick_window({
-						include_current_win = true,
-					}) or vim.api.nvim_get_current_win()
-					vim.api.nvim_set_current_win(picked_window_id)
-				end,
-				{ desc = "Pick a window" },
-			},
-			{
-				"n",
-				"<localleader>ws",
-				function()
-					local picker = require("window-picker")
-					local window = picker.pick_window({
-						include_current_win = false,
-					})
-					local target_buffer = vim.fn.winbufnr(window)
-					-- Set the target window to contain current buffer
-					vim.api.nvim_win_set_buf(window, 0)
-					-- Set current window to contain target buffer
-					vim.api.nvim_win_set_buf(0, target_buffer)
-				end,
-				{ desc = "Swap windows" },
-			},
-		},
-		config = function()
-			require("window-picker").setup({
-				autoselect_one = true,
-				include_current = false,
-				filter_rules = {
-					-- filter using buffer options
-					bo = {
-						-- if the file type is one of following, the window will be ignored
-						filetype = { "NvimTree", "neo-tree", "neo-tree-popup", "notify", "quickfix" },
-
-						-- if the buffer type is one of following, the window will be ignored
-						buftype = { "terminal" },
-					},
-				},
-				other_win_hl_color = "#e35e4f",
-			})
-		end,
 	},
 	{
 		"ThePrimeagen/harpoon",
@@ -222,20 +185,73 @@ return {
 				inc_rename = true,
 			},
 		},
-    -- stylua: ignore
-    keys = {
-      { "<S-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end, mode = "c", desc = "Redirect Cmdline" },
-      { "<leader>snl", function() require("noice").cmd("last") end, desc = "Noice Last Message" },
-      { "<leader>snh", function() require("noice").cmd("history") end, desc = "Noice History" },
-      { "<leader>sna", function() require("noice").cmd("all") end, desc = "Noice All" },
-      { "<leader>snd", function() require("noice").cmd("dismiss") end, desc = "Dismiss All" },
-      { "<c-f>", function() if not require("noice.lsp").scroll(4) then return "<c-f>" end end, silent = true, expr = true, desc = "Scroll forward", mode = {"i", "n", "s"} },
-      { "<c-b>", function() if not require("noice.lsp").scroll(-4) then return "<c-b>" end end, silent = true, expr = true, desc = "Scroll backward", mode = {"i", "n", "s"}},
-    },
+		keys = {
+			{
+				"<S-Enter>",
+				function()
+					require("noice").redirect(vim.fn.getcmdline())
+				end,
+				mode = "c",
+				desc = "Redirect Cmdline",
+			},
+			{
+				"<leader>snl",
+				function()
+					require("noice").cmd("last")
+				end,
+				desc = "Noice Last Message",
+			},
+			{
+				"<leader>snh",
+				function()
+					require("noice").cmd("history")
+				end,
+				desc = "Noice History",
+			},
+			{
+				"<leader>sna",
+				function()
+					require("noice").cmd("all")
+				end,
+				desc = "Noice All",
+			},
+			{
+				"<leader>snd",
+				function()
+					require("noice").cmd("dismiss")
+				end,
+				desc = "Dismiss All",
+			},
+			{
+				"<c-f>",
+				function()
+					if not require("noice.lsp").scroll(4) then
+						return "<c-f>"
+					end
+				end,
+				silent = true,
+				expr = true,
+				desc = "Scroll forward",
+				mode = { "i", "n", "s" },
+			},
+			{
+				"<c-b>",
+				function()
+					if not require("noice.lsp").scroll(-4) then
+						return "<c-b>"
+					end
+				end,
+				silent = true,
+				expr = true,
+				desc = "Scroll backward",
+				mode = { "i", "n", "s" },
+			},
+		},
 	},
 	{
 		"glepnir/flybuf.nvim",
 		cmd = "FlyBuf",
+		keys = { { "n", "<leader>b", "<cmd>FlyBuf<cr>", desc = "Pick Buffer" } },
 		config = function()
 			require("flybuf").setup({})
 		end,

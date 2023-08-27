@@ -4,6 +4,7 @@ return {
 	opts = {
 		check_ts = true,
 		ts_config = { java = false },
+		disable_filetype = { "TelescopePrompt" , "vim" },
 		fast_wrap = {
 			map = "<M-e>",
 			chars = { "{", "[", "(", '"', "'" },

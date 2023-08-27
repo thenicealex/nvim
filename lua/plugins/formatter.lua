@@ -29,6 +29,7 @@ return {
 			},
 			cpp = {
 				function()
+					local util = require("formatter.util")
 					return {
 						exe = "clang-format",
 						args = {

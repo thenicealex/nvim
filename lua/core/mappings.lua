@@ -67,6 +67,7 @@ map("n", "N", "Nzzzv")
 map({"n", "v"}, "<localleader>cr","<cmd> set rnu! <CR>", {desc = "Toggle relative number"})
 map({"n", "v"},"<localleader>cn", "<cmd> set nu! <CR>", {desc = "Toggle line number" })
 
+map("i","jj", "<c-o>:call search('}\\|)\\|]\\|>\\|\"', 'cW')<cr><Right>", {desc = "out of right bracket"})
 
 -- lazy
 map("n", "<localleader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
@@ -78,4 +79,4 @@ map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<localleader>bo", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<localleader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
-map("n", "<leader>b", "<cmd>FlyBuf<cr>", { desc = "Buffer Pick" })
+-- map("n", "<leader>b", "<cmd>FlyBuf<cr>", { desc = "Buffer Pick" })

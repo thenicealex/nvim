@@ -1,5 +1,8 @@
 return {
-	{ "HiPhish/rainbow-delimiters.nvim", event = "VeryLazy" },
+	{
+		"HiPhish/rainbow-delimiters.nvim",
+		-- event = "VeryLazy",
+	},
 	{
 		"windwp/nvim-spectre",
 		keys = {
@@ -16,7 +19,7 @@ return {
 			},
 		},
 		config = function()
-			require("spectre").setup()
+			require("spectre").setup({})
 		end,
 	},
 	{
@@ -250,9 +253,14 @@ return {
 	{
 		"glepnir/flybuf.nvim",
 		cmd = "FlyBuf",
-		keys = {  {"<leader>b", "<cmd>FlyBuf<cr>"}  },
+		keys = { { "<leader>b", "<cmd>FlyBuf<cr>" } },
 		config = function()
 			require("flybuf").setup({})
 		end,
 	},
+	{
+		'mg979/vim-visual-multi',
+		lazy = false,
+	},
+	{ "akinsho/toggleterm.nvim", version = "*", config = true },
 }

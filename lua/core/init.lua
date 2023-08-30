@@ -3,3 +3,6 @@ require("core.mappings")
 require("core.autocmds")
 -- vim.cmd("colorscheme tokyonight-moon")
 require("tabufline.lazyload")
+-- test
+--
+-- go test

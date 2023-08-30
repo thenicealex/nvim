@@ -101,8 +101,7 @@ return {
 	},
 	{
 		"stevearc/oil.nvim",
-		command = "Oil",
-		event = "VeryLazy",
+		cmd = "Oil",
 		opts = {
 			keymaps = {
 				["g?"] = "actions.show_help",

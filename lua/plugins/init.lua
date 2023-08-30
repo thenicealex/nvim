@@ -15,15 +15,22 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-	{"nvim-lua/plenary.nvim", event = "VeryLazy"},
+	{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
 	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{
+		"folke/neodev.nvim",
+		event = "VeryLazy",
+		opts = {},
+		config = function(_, opts)
+			require("neodev").setup(opts)
+		end,
+	},
+	require("plugins.themes"),
 	require("plugins.flash"),
 	require("plugins.nvimtree"),
 	require("plugins.comment"),
 	require("plugins.treesitter"),
 	require("plugins.which-key"),
-	require("plugins.themes"),
-	-- require("plugins.bufferline"),
 	require("plugins.statusline"),
 	require("plugins.indentline"),
 	require("plugins.autopairs"),

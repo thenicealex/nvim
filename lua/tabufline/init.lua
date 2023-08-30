@@ -6,7 +6,7 @@ M.bufilter = function()
 
   if not bufs then
     return {}
-  end
+	end
 
   for i, nr in ipairs(bufs) do
     if not vim.api.nvim_buf_is_valid(nr) then

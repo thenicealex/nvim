@@ -1,29 +1,17 @@
 return {
-	-- {
-	-- 	"thenicealex/onedark.nvim",
-	-- 	priority = 1000,
-	-- 	opts = {
-	-- 		palette = "astrodark",
-	-- 		background = {
-	-- 			light = "astrolight",
-	-- 			dark = "astrodark",
-	-- 		},
-	-- 	},
-	-- 	config = function(_, opts)
-	-- 		require("astrotheme").setup(opts)
-	-- 	end,
-	-- },
 	{
 		"folke/tokyonight.nvim",
 		enabled = false,
 		priority = 1000,
 		opts = {},
 	},
-	{dir = "~/onedark",
-	enabled = false},
+	{ dir = "~/onedark",
+		priority = 1000,
+		enabled = true },
 	{
 		dir = "~/onedark.nvim",
-		enabled = true,
+		enabled = false,
+		priority = 1000,
 		opts = {
 			palette = "onedark",
 			background = {
@@ -35,7 +23,12 @@ return {
 			require("onedark").setup(opts)
 		end,
 	},
-	{ 'rktjmp/lush.nvim',
-		cmd = {"LushRunTutorial", "Lushify"}
-	}
+	{
+		"olimorris/onedarkpro.nvim",
+		enabled = false,
+		priority = 1000, -- Ensure it loads first
+	},
+	{ "ellisonleao/gruvbox.nvim",
+		enabled = false,
+		priority = 1000 },
 }

@@ -1,5 +1,6 @@
 local vim = vim
 local conditions = require("heirline.conditions")
+local utils = require("heirline.utils")
 local onedark_colors = {
 	dark = "#282c34",
 	red = "#e06c75",
@@ -83,7 +84,7 @@ local ViMode = {
 	-- control the padding and make sure our string is always at least 2
 	-- characters long. Plus a nice Icon.
 	provider = function(self)
-		return "  ⚡ ".. self.mode_names[self.mode] .. " "
+		return "  ⚡ " .. self.mode_names[self.mode] .. " "
 	end,
 	-- Same goes for the highlight. Now the foreground will change according to the current mode.
 	hl = function(self)
@@ -112,7 +113,7 @@ local FileInfo = {
 				local extension = vim.fn.fnamemodify(filename, ":e")
 				self.icon, self.icon_color =
 					require("nvim-web-devicons").get_icon_color(filename, extension, { default = true })
-				return self.icon
+				return self.icon .. " "
 			end
 			return icon
 		end,
@@ -163,7 +164,7 @@ local FileType = {
 		if vim.bo.ft == "NvimTree" then
 			return ""
 		end
-		return vim.bo.ft == "" and "plain text " or vim.bo.ft
+		return vim.bo.ft == "" and "PLAIN TEXT " or string.upper(vim.bo.ft)
 	end,
 	hl = { fg = onedark_colors.blue },
 }
@@ -229,7 +230,7 @@ local Git = {
 
 	{ -- git branch name
 		provider = function(self)
-			return " " .. self.status_dict.head
+			return "  " .. self.status_dict.head
 		end,
 		hl = { bold = true },
 	},
@@ -288,14 +289,21 @@ local SearchCount = {
 local LSPActive = {
 	condition = conditions.lsp_attached,
 	update = { "LspAttach", "LspDetach" },
-
+	on_click = {
+		callback = function()
+			vim.defer_fn(function()
+				vim.cmd("LspInfo")
+			end, 100)
+		end,
+		name = "heirline_LSP",
+	},
 	-- You can keep it simple,
 	-- provider = " [LSP]",
 
 	-- Or complicate things a bit and get the servers names
 	provider = function()
 		local names = {}
-		for i, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
+		for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
 			table.insert(names, server.name)
 		end
 		return " [" .. table.concat(names, " ") .. "] "
@@ -326,6 +334,18 @@ local Diagnostics = {
 		provider = " ",
 	},
 	{
+		on_click = {
+			callback = function()
+				-- If you prefer Lazygit
+				-- use vim.defer_fn() if the callback requires
+				-- opening of a floating window
+				-- (this also applies to telescope)
+				vim.defer_fn(function()
+					print("hello git")
+				end, 100)
+			end,
+			name = "heirline_git",
+		},
 		provider = function(self)
 			-- 0 is just another output, we can decide to print it or not!
 			return self.errors > 0 and (self.error_icon .. self.errors .. " ")
@@ -333,18 +353,54 @@ local Diagnostics = {
 		hl = { fg = onedark_colors.red },
 	},
 	{
+		on_click = {
+			callback = function()
+				-- If you prefer Lazygit
+				-- use vim.defer_fn() if the callback requires
+				-- opening of a floating window
+				-- (this also applies to telescope)
+				vim.defer_fn(function()
+					print("hello git")
+				end, 100)
+			end,
+			name = "heirline_git",
+		},
 		provider = function(self)
 			return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
 		end,
 		hl = { fg = onedark_colors.orange },
 	},
 	{
+		on_click = {
+			callback = function()
+				-- If you prefer Lazygit
+				-- use vim.defer_fn() if the callback requires
+				-- opening of a floating window
+				-- (this also applies to telescope)
+				vim.defer_fn(function()
+					print("hello git")
+				end, 100)
+			end,
+			name = "heirline_git",
+		},
 		provider = function(self)
 			return self.info > 0 and (self.info_icon .. self.info .. " ")
 		end,
 		hl = { fg = onedark_colors.green },
 	},
 	{
+		on_click = {
+			callback = function()
+				-- If you prefer Lazygit
+				-- use vim.defer_fn() if the callback requires
+				-- opening of a floating window
+				-- (this also applies to telescope)
+				vim.defer_fn(function()
+					print("hello git")
+				end, 100)
+			end,
+			name = "heirline_git",
+		},
 		provider = function(self)
 			return self.hints > 0 and (self.hint_icon .. self.hints)
 		end,
@@ -355,8 +411,8 @@ local Diagnostics = {
 	},
 }
 
--- return config
-return {
+
+require("heirline").setup({
 	statusline = {
 		ViMode,
 		FileInfo,
@@ -374,4 +430,4 @@ return {
 		FileType,
 		FileSize,
 	},
-}
+})

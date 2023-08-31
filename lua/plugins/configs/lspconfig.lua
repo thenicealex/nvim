@@ -3,7 +3,7 @@
 local lspconfig = require("lspconfig")
 -- local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local on_attach = function(client, bufnr)
+local on_attach = function(client, _)
 	client.server_capabilities.documentFormattingProvider = false
 	client.server_capabilities.documentRangeFormattingProvider = false
 end
@@ -62,13 +62,21 @@ lspconfig.lua_ls.setup({
 		},
 	},
 })
-
+local utils = require("core.utils")
+if utils.has("lspsaga.nvim") then
+	vim.keymap.set("n", "<leader>lp", "<cmd>Lspsaga show_workspace_diagnostics<cr>", { desc = "Project diagnostics" })
+	vim.keymap.set("n", "<leader>lb", "<cmd>Lspsaga show_buf_diagnostics<cr>", { desc = "Buffer diagnostics" })
+	vim.keymap.set("n", "<leader>lo", "<cmd>Lspsaga show_line_diagnostics<cr>", { desc = "Open diagnostic" })
+	vim.keymap.set("n", "[d", "<cmd>diagnostic_jump_prev<cr>", { desc = "Prev diagnostic" })
+	vim.keymap.set("n", "]d", "<cmd>diagnostic_next_prev", { desc = "Next diagnostic" })
+else
+	vim.keymap.set("n", "<leader>lb", vim.diagnostic.setloclist, { desc = "Buffer diagnostics" })
+	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
+	vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+	vim.keymap.set("n", "<leader>lo", vim.diagnostic.open_float, { desc = "Open diagnostic" })
+end
 -- Global mappings.
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
-vim.keymap.set("n", "<leader>lp", vim.diagnostic.open_float, { desc = "Open diagnostic" })
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
-vim.keymap.set("n", "<leader>lq", vim.diagnostic.setloclist, { desc = "Loclist diagnostic" })
 
 -- Use LspAttach autocommand to only map the following keys
 -- after the language server attaches to the current buffer
@@ -133,11 +141,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 })
 
 vim.diagnostic.config({
-	virtual_text = true,
-	virtual_lines = {
-		only_current_line = true,
-	},
-	update_in_insert = false,
+	virtual_text = false,
+	update_in_insert = true,
 	underline = true,
 	severity_sort = true,
 	float = {

@@ -3,17 +3,16 @@ return {
 		"hrsh7th/nvim-cmp",
 		dependencies = {
 			{
-				-- snippet plugin
 				"L3MON4D3/LuaSnip",
+				version = "2.*",
 				dependencies = "rafamadriz/friendly-snippets",
-				opts = { history = true, updateevents = "TextChanged,TextChangedI" },
+				opts = {
+					update_events = "TextChanged,TextChangedI",
+				},
 				config = function(_, opts)
-					require("luasnip").config.set_config(opts)
-
 					-- vscode format
-					require("luasnip.loaders.from_vscode").lazy_load({
-						path = "../../snippets/"
-					})
+					require("luasnip").setup(opts)
+					require("luasnip.loaders.from_vscode").lazy_load()
 
 					vim.api.nvim_create_autocmd("InsertLeave", {
 						callback = function()

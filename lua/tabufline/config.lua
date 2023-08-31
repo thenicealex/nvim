@@ -3,4 +3,5 @@ return {
 	enabled = true,
 	lazyload = true,
 	overriden_modules = nil,
+	colored = false,
 }

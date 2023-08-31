@@ -4,14 +4,11 @@ if not snip_status_ok then
 	return
 end
 
--- If you want insert `(` after select function or method item
--- local cmp_autopairs = require("nvim-autopairs.completion.cmp")
--- cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
-
 -- vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#61afef", bg = "#1E222A" })
 local border_opts = {
 	border = "rounded",
 	scrollbar = false,
+	-- TODO:
 	winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
 }
 
@@ -64,13 +61,6 @@ return {
 			luasnip.lsp_expand(args.body)
 		end,
 	},
-	duplicates = {
-		nvim_lsp = 1,
-		luasnip = 1,
-		cmp_tabnine = 1,
-		buffer = 1,
-		path = 1,
-	},
 	confirm_opts = {
 		behavior = cmp.ConfirmBehavior.Replace,
 		select = false,
@@ -91,7 +81,7 @@ return {
 		["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-y>"] = cmp.config.disable,
 		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<C-x>"] = cmp.mapping(
 			cmp.mapping.complete({
 				config = {
@@ -124,7 +114,7 @@ return {
 	},
 	completion = {
 		-- Automatically select the first item
-		completeopt = "menu,menuone,noinsert",
+		completeopt = "menu,menuone,noinsert,noselect",
 	},
 	sources = cmp.config.sources({
 		{ name = "nvim_lsp", priority = 1000 },

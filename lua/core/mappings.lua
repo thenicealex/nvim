@@ -6,6 +6,7 @@ local function map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, options)
 end
 
+
 -- General
 -- better up/down
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
@@ -64,10 +65,10 @@ map("n", "<C-u>", "<C-u>zz")
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
 
-map({"n", "v"}, "<localleader>cr","<cmd> set rnu! <CR>", {desc = "Toggle relative number"})
-map({"n", "v"},"<localleader>cn", "<cmd> set nu! <CR>", {desc = "Toggle line number" })
+map({ "n", "v" }, "<localleader>cr", "<cmd> set rnu! <CR>", { desc = "Toggle relative number" })
+map({ "n", "v" }, "<localleader>cn", "<cmd> set nu! <CR>", { desc = "Toggle line number" })
 
-map("i","jj", "<c-o>:call search('}\\|)\\|]\\|>\\|\"', 'cW')<cr><Right>", {desc = "out of right bracket"})
+map("i", "<M-j>", "<c-o>:call search('}\\|)\\|]\\|>\\|\"', 'cW')<cr><Right>", { desc = "out of right bracket" })
 
 -- lazy
 map("n", "<localleader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })

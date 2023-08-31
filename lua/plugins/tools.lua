@@ -250,6 +250,70 @@ return {
 			},
 		},
 	},
+	{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
+	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{
+		"folke/neodev.nvim",
+		event = "VeryLazy",
+		opts = {},
+		config = function(_, opts)
+			require("neodev").setup(opts)
+		end,
+	},
+	{
+		"onsails/lspkind.nvim",
+		event = "VeryLazy",
+		opts = {
+			mode = "symbol",
+			symbol_map = {
+				Array = "󰅪",
+				Boolean = "⊨",
+				Class = "󰌗",
+				Constructor = "",
+				Key = "󰌆",
+				Namespace = "󰅪",
+				Null = "NULL",
+				Number = "#",
+				Object = "󰀚",
+				Package = "󰏗",
+				Property = "",
+				Reference = "",
+				Snippet = "",
+				String = "󰀬",
+				TypeParameter = "󰊄",
+				Unit = "",
+			},
+			menu = {},
+		},
+		-- enabled = vim.g.icons_enabled,
+		enabled = true,
+		config = function(_, opts)
+			require("lspkind").init(opts)
+		end,
+	},
+	{
+		"zbirenbaum/copilot.lua",
+		enabled = false,
+		cmd = "Copilot",
+		event = "InsertEnter",
+		config = function()
+			require("copilot").setup({
+				suggestion = {
+					enabled = true,
+					auto_trigger = true,
+					debounce = 75,
+					keymap = {
+						accept = "<M-l>",
+						accept_word = false,
+						accept_line = false,
+						next = "<M-]>",
+						prev = "<M-[>",
+						dismiss = "<C-]>",
+					},
+				},
+			})
+		end,
+	},
 	{
 		"glepnir/flybuf.nvim",
 		cmd = "FlyBuf",

@@ -15,6 +15,7 @@ o.splitright = true
 o.splitbelow = true
 o.laststatus = 3
 o.cursorline = true
+o.signcolumn = "yes"
 o.swapfile = false
 -- o.mousemoveevent = true
 -- o.cmdheight = 0

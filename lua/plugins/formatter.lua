@@ -41,12 +41,41 @@ return {
 					}
 				end,
 			},
+			c = {
+				function()
+					local util = require("formatter.util")
+					return {
+						exe = "clang-format -style='{IndentWidth: 4}'",
+						args = {
+							"-assume-filename",
+							util.escape_path(util.get_current_buffer_file_name()),
+						},
+						stdin = true,
+						try_node_modules = true,
+					}
+				end,
+			},
 			python = {
 				function()
 					return {
 						exe = "black",
 						args = { "-q", "-" },
 						stdin = true,
+					}
+				end,
+			},
+			json = {
+				function()
+					local util = require("formatter.util")
+					return {
+						-- npm -g install prettier
+						exe = "prettier",
+						args = {
+							"--stdin-filepath",
+							util.escape_path(util.get_current_buffer_file_path()),
+						},
+						stdin = true,
+						try_node_modules = true,
 					}
 				end,
 			},

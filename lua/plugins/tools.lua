@@ -1,6 +1,6 @@
 return {
 	{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
-	{ "nvim-tree/nvim-web-devicons", lazy = true },
+	{ "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
 	{
 		"HiPhish/rainbow-delimiters.nvim",
 		-- event = "VeryLazy",
@@ -141,37 +141,6 @@ return {
 		opts = {},
 		config = function(_, opts)
 			require("neodev").setup(opts)
-		end,
-	},
-	{
-		"onsails/lspkind.nvim",
-		event = "VeryLazy",
-		opts = {
-			mode = "symbol",
-			symbol_map = {
-				Array = "󰅪",
-				Boolean = "⊨",
-				Class = "󰌗",
-				Constructor = "",
-				Key = "󰌆",
-				Namespace = "󰅪",
-				Null = "NULL",
-				Number = "#",
-				Object = "󰀚",
-				Package = "󰏗",
-				Property = "",
-				Reference = "",
-				Snippet = "",
-				String = "󰀬",
-				TypeParameter = "󰊄",
-				Unit = "",
-			},
-			menu = {},
-		},
-		-- enabled = vim.g.icons_enabled,
-		enabled = true,
-		config = function(_, opts)
-			require("lspkind").init(opts)
 		end,
 	},
 	{

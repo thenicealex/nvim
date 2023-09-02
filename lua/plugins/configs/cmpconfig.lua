@@ -3,13 +3,20 @@ local snip_status_ok, luasnip = pcall(require, "luasnip")
 if not snip_status_ok then
 	return
 end
+vim.keymap.set({ "i", "s" }, "<Tab>", function()
+	luasnip.jump(1)
+end, { silent = true })
+vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
+	luasnip.jump(-1)
+end, { silent = true })
 
--- vim.api.nvim_set_hl(0, "FloatBorder", { fg = "#61afef", bg = "#1E222A" })
+vim.api.nvim_set_hl(0, "MyPmenuSel", { fg = "#efefef", bg = "#2d4d74", bold = true })
+vim.api.nvim_set_hl(0, "MyFloatBorder", { bg = "#1e222a" })
 local border_opts = {
 	border = "rounded",
 	scrollbar = false,
 	-- TODO:
-	winhighlight = "Normal:Normal,FloatBorder:FloatBorder,CursorLine:Visual,Search:None",
+	winhighlight = "FloatBorder:MyFloatBorder,CursorLine:MyPmenuSel,Search:None",
 }
 
 local function has_words_before()
@@ -29,28 +36,32 @@ cmp.setup.cmdline(":", {
 		{ name = "path" },
 	}, { { name = "cmdline" } }),
 })
+
 local formatting_style = {
 	-- default fields order i.e completion word + item.kind + item.kind icons
 	fields = { "abbr", "kind", "menu" },
 	format = function(entry, vim_item)
-		local kind_icons = require("icons.lspkind")
-		local lspkind_ok, lspkind = pcall(require, "lspkind")
-		if not lspkind_ok then
-			-- From kind_icons array
-			vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind], vim_item.kind) -- This concatonates the icons with the name of the item kind
-			-- Source
-			vim_item.menu = ({
-				buffer = "[Buffer]",
-				nvim_lsp = "[LSP]",
-				luasnip = "[LuaSnip]",
-				nvim_lua = "[Lua]",
-				latex_symbols = "[LaTeX]",
-			})[entry.source.name]
-			return vim_item
-		else
-			-- From lspkind
-			return lspkind.cmp_format()(entry, vim_item)
+		local kind_icons = require("icons").lspkind
+		-- From kind_icons array
+		-- This concatonates the icons with the name of the item kind
+		vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "?", vim_item.kind)
+		local function trim(text)
+			local max = 23
+			if text and text:len() > max then
+				text = text:gsub("%b()~", "()")
+				text = text:sub(1, max)
+			end
+			return text
 		end
+		vim_item.abbr = trim(vim_item.abbr):gsub("^%s+", "")
+		-- Source
+		-- vim_item.menu = ({
+		-- 	buffer = "[Buffer]",
+		-- 	nvim_lsp = "[LSP]",
+		-- 	luasnip = "[LuaSnip]",
+		-- 	nvim_lua = "[Lua]",
+		-- })[entry.source.name]
+		return vim_item
 	end,
 }
 return {
@@ -74,14 +85,11 @@ return {
 		["<Down>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Select }),
 		["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
 		["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<C-k>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-		["<C-j>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
 		["<C-u>"] = cmp.mapping(cmp.mapping.scroll_docs(-4), { "i", "c" }),
 		["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
-		["<C-Space>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
-		["<C-y>"] = cmp.config.disable,
+		["<M-o>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<CR>"] = cmp.mapping.confirm({ select = false }),
 		["<C-x>"] = cmp.mapping(
 			cmp.mapping.complete({
 				config = {
@@ -90,18 +98,20 @@ return {
 			}),
 			{ "i" }
 		),
-		["<Tab>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_next_item()
-			elseif luasnip.expand_or_jumpable() then
-				luasnip.expand_or_jump()
-			elseif has_words_before() then
-				cmp.complete()
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
+		["<C-y>"] = cmp.config.disable,
+		["Tab"] = cmp.mapping.disable,
 		["<S-Tab>"] = cmp.config.disable,
+		-- ["<Tab>"] = cmp.mapping(function(fallback)
+		-- 	if cmp.visible() then
+		-- 		cmp.select_next_item()
+		-- 	elseif luasnip.expand_or_jumpable() then
+		-- 		luasnip.expand_or_jump()
+		-- 	elseif has_words_before() then
+		-- 		cmp.complete()
+		-- 	else
+		-- 		fallback()
+		-- 	end
+		-- end, { "i", "s" }),
 		-- ["<S-Tab>"] = cmp.mapping(function(fallback)
 		-- 	if cmp.visible() then
 		-- 		cmp.select_prev_item()
@@ -116,8 +126,13 @@ return {
 		-- Automatically select the first item
 		completeopt = "menu,menuone,noinsert,noselect",
 	},
+
 	sources = cmp.config.sources({
-		{ name = "nvim_lsp", priority = 1000 },
+		{
+			name = "nvim_lsp",
+			priority = 1000,
+			-- keyword_length = 3,
+		},
 		{
 			name = "luasnip",
 			priority = 750,

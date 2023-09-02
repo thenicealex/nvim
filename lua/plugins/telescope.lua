@@ -46,7 +46,7 @@ return {
 				prompt_prefix = "Global search> ",
 				layout_config = {
 					width = 0.8,
-					height = 0.3,
+					height = 0.5,
 				},
 			},
 			current_buffer_fuzzy_find = {

@@ -7,10 +7,10 @@ return {
 	},
 	{ dir = "~/onedark",
 		priority = 1000,
-		enabled = true },
+		enabled = false },
 	{
 		dir = "~/onedark.nvim",
-		enabled = false,
+		enabled = true,
 		priority = 1000,
 		opts = {
 			palette = "onedark",

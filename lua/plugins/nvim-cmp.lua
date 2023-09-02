@@ -2,30 +2,7 @@ return {
 	{
 		"hrsh7th/nvim-cmp",
 		dependencies = {
-			{
-				"L3MON4D3/LuaSnip",
-				version = "2.*",
-				dependencies = "rafamadriz/friendly-snippets",
-				opts = {
-					update_events = "TextChanged,TextChangedI",
-				},
-				config = function(_, opts)
-					-- vscode format
-					require("luasnip").setup(opts)
-					require("luasnip.loaders.from_vscode").lazy_load()
 
-					vim.api.nvim_create_autocmd("InsertLeave", {
-						callback = function()
-							if
-								require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
-								and not require("luasnip").session.jump_active
-							then
-								require("luasnip").unlink_current()
-							end
-						end,
-					})
-				end,
-			},
 			"saadparwaiz1/cmp_luasnip",
 			"hrsh7th/cmp-buffer",
 			"hrsh7th/cmp-path",
@@ -48,6 +25,26 @@ return {
 		end,
 		config = function(_, opts)
 			require("cmp").setup(opts)
+		end,
+	},
+	{
+		"L3MON4D3/LuaSnip",
+		dependencies = "rafamadriz/friendly-snippets",
+		config = function(_, opts)
+			-- vscode format
+			require("luasnip.loaders.from_vscode").lazy_load()
+			require("luasnip").setup()
+
+			vim.api.nvim_create_autocmd("InsertLeave", {
+				callback = function()
+					if
+						require("luasnip").session.current_nodes[vim.api.nvim_get_current_buf()]
+						and not require("luasnip").session.jump_active
+					then
+						require("luasnip").unlink_current()
+					end
+				end,
+			})
 		end,
 	},
 }

@@ -6,9 +6,13 @@ return {
 		{ "<leader>f", "<cmd>Telescope find_files<cr>" },
 		{ "<leader>B", "<cmd>Telescope buffers<cr>", desc = "Telescope buffers" },
 		{ "<leader>s", "<cmd>Telescope current_buffer_fuzzy_find<cr>" },
-		{ "<localleader>ss", "<cmd>Telescope live_grep<cr>",desc = "global search" },
+		{ "<localleader>ss", "<cmd>Telescope live_grep<cr>", desc = "global search" },
 		{ "<localleader>fh", "<cmd>Telescope help_tags<cr>", desc = "help doc" },
-		{ "<localleader>fa", "<cmd>Telescope find_files follow=true no_ignore=true hidden=true<cr>", desc = "find all file" },
+		{
+			"<localleader>fa",
+			"<cmd>Telescope find_files follow=true no_ignore=true hidden=true<cr>",
+			desc = "find all file",
+		},
 	},
 	opts = {
 		defaults = {
@@ -48,13 +52,12 @@ return {
 			current_buffer_fuzzy_find = {
 				theme = "dropdown",
 				prompt_title = "",
-				preview_title = '',
+				preview_title = "",
 				prompt_prefix = "Search> ",
 				layout_config = {
 					width = 0.8,
 					height = 0.4,
 				},
-
 			},
 		},
 		extensions = {

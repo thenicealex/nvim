@@ -17,6 +17,7 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	require("plugins.themes"),
 	require("plugins.flash"),
+	require("plugins.ui"),
 	require("plugins.nvimtree"),
 	require("plugins.comment"),
 	require("plugins.treesitter"),

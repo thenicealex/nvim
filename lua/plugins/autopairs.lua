@@ -10,7 +10,7 @@ return {
 			chars = { "{", "[", "(", '"', "'" },
 			pattern = string.gsub([[ [%'%"%)%>%]%)%}%,] ]], "%s+", ""),
 			offset = 0,
-			end_key = "$",
+			end_key = "E",
 			keys = "qwertyuiopzxcvbnmasdfghjkl",
 			check_comma = true,
 			highlight = "PmenuSel",

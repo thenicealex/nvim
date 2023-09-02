@@ -29,11 +29,11 @@ return {
 	},
 	{
 		"L3MON4D3/LuaSnip",
-		dependencies = "rafamadriz/friendly-snippets",
-		config = function(_, opts)
+		-- dependencies = "rafamadriz/friendly-snippets",
+		event = "InsertEnter",
+		config = function()
 			-- vscode format
-			require("luasnip.loaders.from_vscode").lazy_load()
-			require("luasnip").setup()
+			require("luasnip.loaders.from_vscode").lazy_load({paths="./snippets"})
 
 			vim.api.nvim_create_autocmd("InsertLeave", {
 				callback = function()

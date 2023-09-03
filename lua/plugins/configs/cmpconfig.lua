@@ -19,17 +19,20 @@ local border_opts = {
 	winhighlight = "FloatBorder:MyFloatBorder,CursorLine:MyPmenuSel,Search:None",
 }
 
+---@diagnostic disable-next-line: unused-local, unused-function
 local function has_words_before()
 	local line, col = unpack(vim.api.nvim_win_get_cursor(0))
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+---@diagnostic disable-next-line: missing-fields
 cmp.setup.cmdline({ "/", "?" }, {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = { { name = "buffer" } },
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+---@diagnostic disable-next-line: missing-fields
 cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline(),
 	sources = cmp.config.sources({
@@ -45,15 +48,16 @@ local formatting_style = {
 		-- From kind_icons array
 		-- This concatonates the icons with the name of the item kind
 		vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "?", vim_item.kind)
-		local function trim(text)
-			local max = 23
-			if text and text:len() > max then
-				text = text:gsub("%b()~", "()")
-				text = text:sub(1, max)
-			end
-			return text
-		end
-		vim_item.abbr = trim(vim_item.abbr):gsub("^%s+", "")
+		-- vim_item.kind = string.format("%s", kind_icons[vim_item.kind] or "?")
+		-- local function trim(text)
+		-- 	local max = 23
+		-- 	if text and text:len() > max then
+		-- 		-- text = text:gsub("%b()~", "()")
+		-- 		text = text:sub(1, max)
+		-- 	end
+		-- 	return text
+		-- end
+		-- vim_item.abbr = trim(vim_item.abbr):gsub("^%s+", ""):gsub("·", "")
 		-- Source
 		-- vim_item.menu = ({
 		-- 	buffer = "[Buffer]",
@@ -61,6 +65,7 @@ local formatting_style = {
 		-- 	luasnip = "[LuaSnip]",
 		-- 	nvim_lua = "[Lua]",
 		-- })[entry.source.name]
+		vim_item.menu = nil
 		return vim_item
 	end,
 }
@@ -92,6 +97,7 @@ return {
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
 		["<C-x>"] = cmp.mapping(
 			cmp.mapping.complete({
+				---@diagnostic disable-next-line: missing-fields
 				config = {
 					sources = cmp.config.sources({ { name = "dictionary" } }),
 				},

@@ -17,31 +17,40 @@ return {
 		-- 	require("neodev").setup(opts)
 		-- end,
 	},
+	{ 'Bekaboo/dropbar.nvim',
+	enabled = false,},
 	{
 		"utilyre/barbecue.nvim",
 		name = "barbecue",
-		enabled = true,
+		enabled = false,
 		event = "LspAttach",
 		version = "*",
 		dependencies = { "SmiteshP/nvim-navic" },
 		opts = {
-			-- configurations go here
+			exclude_filetypes = {
+				"gitcommit",
+				"toggleterm",
+				"NvimTree",
+			},
 		},
+		config = function(_, opts)
+    require("barbecue").setup(opts)
+  end,
 	},
 	{
-    'nvimdev/lspsaga.nvim',
-		event = 'LspAttach',
+		"nvimdev/lspsaga.nvim",
+		event = "LspAttach",
 		keys = {},
 		opts = {
-			symbol_in_winbar ={enable = false},
-			lightbulb ={enable = false},
+			symbol_in_winbar = { enable = false },
+			lightbulb = { enable = false },
 		},
-    config = function(_,opts)
-        require('lspsaga').setup(opts)
-    end,
-    dependencies = {
-        'nvim-treesitter/nvim-treesitter', -- optional
-        'nvim-tree/nvim-web-devicons'     -- optional
-    }
-}
+		config = function(_, opts)
+			require("lspsaga").setup(opts)
+		end,
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter", -- optional
+			"nvim-tree/nvim-web-devicons", -- optional
+		},
+	},
 }

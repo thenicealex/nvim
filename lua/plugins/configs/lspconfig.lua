@@ -88,55 +88,39 @@ vim.api.nvim_create_autocmd("LspAttach", {
 
 		-- Buffer local mappings.
 		-- See `:help vim.lsp.*` for documentation on any of the below functions
-		local opts = { buffer = ev.buf }
-		vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, vim.tbl_extend("force", opts, { desc = "Rename" }))
-		vim.keymap.set(
-			{ "n", "v" },
-			"<leader>la",
-			vim.lsp.buf.code_action,
-			vim.tbl_extend("force", opts, { desc = "Code action" })
-		)
-		vim.keymap.set("n", "K", vim.lsp.buf.hover, vim.tbl_extend("force", opts, { desc = "Hover" }))
-		vim.keymap.set("n", "gd", vim.lsp.buf.definition, vim.tbl_extend("force", opts, { desc = "Definition" }))
-		vim.keymap.set("n", "gD", vim.lsp.buf.declaration, vim.tbl_extend("force", opts, { desc = "Declaration" }))
-		vim.keymap.set("n", "gr", vim.lsp.buf.references, vim.tbl_extend("force", opts, { desc = "References" }))
-		vim.keymap.set(
-			"n",
-			"gi",
-			vim.lsp.buf.implementation,
-			vim.tbl_extend("force", opts, { desc = "Implementation" })
-		)
-		vim.keymap.set(
-			"n",
-			"<C-k>",
-			vim.lsp.buf.signature_help,
-			vim.tbl_extend("force", opts, { desc = "Signature_help" })
-		)
-		vim.keymap.set(
-			"n",
-			"<leader>D",
-			vim.lsp.buf.type_definition,
-			vim.tbl_extend("force", opts, { desc = "Type definition" })
-		)
+		local get_opts = function(option)
+			local opts = { buffer = ev.buf }
+			if option then
+				opts = vim.tbl_extend("force", opts, option)
+			end
+			return opts
+		end
+		if utils.has("Lspsaga.nvim") then
+			-- stylua: ignore
+		  vim.keymap.set( { "n", "v" }, "<leader>la", "<cmd>Lspsaga code_action", get_opts({ desc = "Code action" }))
+		else
+			vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, get_opts({ desc = "Rename" }))
+			-- stylua: ignore
+			vim.keymap.set( { "n", "v" }, "<leader>la", vim.lsp.buf.code_action, get_opts({ desc = "Code action" }))
+			vim.keymap.set("n", "K", vim.lsp.buf.hover, get_opts({ desc = "Hover" }))
+			vim.keymap.set("n", "gd", vim.lsp.buf.definition, get_opts({ desc = "Definition" }))
+			vim.keymap.set("n", "gD", vim.lsp.buf.declaration, get_opts({ desc = "Declaration" }))
+			vim.keymap.set("n", "gr", vim.lsp.buf.references, get_opts({ desc = "References" }))
+			-- stylua: ignore start
+			vim.keymap.set( "n", "gi", vim.lsp.buf.implementation, get_opts({ desc = "Implementation" }))
+			vim.keymap.set( "n", "<C-k>", vim.lsp.buf.signature_help, get_opts({ desc = "Signature_help" }))
+			vim.keymap.set( "n", "<leader>D", vim.lsp.buf.type_definition, get_opts({ desc = "Type definition" }))
 
-		vim.keymap.set(
-			"n",
-			"<leader>lwa",
-			vim.lsp.buf.add_workspace_folder,
-			vim.tbl_extend("force", opts, { desc = "Add workspace folder" })
-		)
-		vim.keymap.set(
-			"n",
-			"<leader>lwr",
-			vim.lsp.buf.remove_workspace_folder,
-			vim.tbl_extend("force", opts, { desc = "Remove workspace folder" })
-		)
-		vim.keymap.set("n", "<leader>lwl", function()
-			print(vim.inspect(vim.lsp.buf.list_workleader_folders()))
-		end, vim.tbl_extend("force", opts, { desc = "List workleader folders" }))
-		vim.keymap.set("n", "<leader>lm", function()
-			vim.lsp.buf.format({ async = true })
-		end, vim.tbl_extend("force", opts, { desc = "Lsp format" }))
+			vim.keymap.set( "n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, get_opts({ desc = "Add workspace folder" }))
+			vim.keymap.set( "n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, get_opts({ desc = "Remove workspace folder" }))
+			-- stylua: ignore end
+			vim.keymap.set("n", "<leader>lwl", function()
+				print(vim.inspect(vim.lsp.buf.list_workleader_folders()))
+			end, get_opts({ desc = "List workleader folders" }))
+			vim.keymap.set("n", "<leader>lm", function()
+				vim.lsp.buf.format({ async = true })
+			end, get_opts({ desc = "Lsp format" }))
+		end
 	end,
 })
 

@@ -269,6 +269,7 @@ local Git = {
 		provider = " ",
 	},
 }
+---@diagnostic disable-next-line: unused-local
 local SearchCount = {
 	condition = function()
 		return vim.v.hlsearch ~= 0

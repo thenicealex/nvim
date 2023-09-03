@@ -6,18 +6,22 @@ return {
 		-- event = "VeryLazy",
 	},
 	{
+		"glepnir/flybuf.nvim",
+		cmd = "FlyBuf",
+		keys = { { "<leader>b", "<cmd>FlyBuf<cr>" } },
+		config = function()
+			require("flybuf").setup({})
+		end,
+	},
+	{
 		"windwp/nvim-spectre",
+		-- stylua: ignore
 		keys = {
 			{
-				"<localleader>S",
-				'<cmd>lua require("spectre").toggle()<CR>',
-				desc = "Toggle Spectre",
+				"<localleader>S", '<cmd>lua require("spectre").toggle()<CR>', desc = "Toggle Spectre",
 			},
-
 			{
-				"<leader>sw",
-				'<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
-				desc = "Search current word",
+				"<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', desc = "Search current word",
 			},
 		},
 		config = function()
@@ -92,45 +96,26 @@ return {
 	},
 	{
 		"ThePrimeagen/harpoon",
+		-- stylua: ignore
 		keys = {
 			{
-				"<leader>mf",
-				mode = { "n" },
-				function()
-					require("harpoon.mark").add_file()
-				end,
+				"<leader>mf", mode = { "n" }, function() require("harpoon.mark").add_file() end,
 				desc = "Mark file",
 			},
 			{
-				"<leader>ml",
-				mode = { "n" },
-				function()
-					require("harpoon.ui").toggle_quick_menu()
-				end,
+				"<leader>ml", mode = { "n" }, function() require("harpoon.ui").toggle_quick_menu() end,
 				desc = "Mark menu",
 			},
 			{
-				"1",
-				mode = { "n" },
-				function()
-					require("harpoon.ui").nav_file(1)
-				end,
+				"1", mode = { "n" }, function() require("harpoon.ui").nav_file(1) end,
 				desc = "Mark menu",
 			},
 			{
-				"2",
-				mode = { "n" },
-				function()
-					require("harpoon.ui").nav_file(2)
-				end,
+				"2", mode = { "n" }, function() require("harpoon.ui").nav_file(2) end,
 				desc = "Mark menu",
 			},
 			{
-				"3",
-				mode = { "n" },
-				function()
-					require("harpoon.ui").nav_file(3)
-				end,
+				"3", mode = { "n" }, function() require("harpoon.ui").nav_file(3) end,
 				desc = "Mark menu",
 			},
 		},
@@ -158,17 +143,6 @@ return {
 			})
 		end,
 	},
-	{
-		"glepnir/flybuf.nvim",
-		cmd = "FlyBuf",
-		keys = { { "<leader>b", "<cmd>FlyBuf<cr>" } },
-		config = function()
-			require("flybuf").setup({})
-		end,
-	},
-	{
-		"mg979/vim-visual-multi",
-		lazy = false,
-	},
-	{ "akinsho/toggleterm.nvim", version = "*", config = true },
+	{ "mg979/vim-visual-multi", lazy = false, },
+	{ "akinsho/toggleterm.nvim",cmd = "ToggleTerm", version = "*", config = true },
 }

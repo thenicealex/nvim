@@ -22,6 +22,7 @@ return {
 			["<localleader>s"] = { name = "+search" },
 			["<localleader>w"] = { name = "+windows" },
 			["<localleader>x"] = { name = "+diagnostics/quickfix" },
+			["<localleader>n"] = { name = "+notice" },
 		},
 	},
 	config = function(_, opts)

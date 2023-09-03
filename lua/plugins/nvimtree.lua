@@ -1,20 +1,6 @@
 return {
 	{
 		"nvim-tree/nvim-tree.lua",
-		-- init = function(_, bufnr)
-		-- 	local api = require("nvim-tree.api")
-		--
-		-- 	local function opts(desc)
-		-- 		return { desc = "nvim-tree: " .. desc, buffer = bufnr, noremap = true, silent = true, nowait = true }
-		-- 	end
-		--
-		-- 	-- default mappings
-		-- 	api.config.mappings.default_on_attach(bufnr)
-		--
-		-- 	-- custom mappings
-		-- 	vim.keymap.set("n", "<C-t>", api.tree.change_root_to_parent, opts("Up"))
-		-- 	vim.keymap.set("n", "?", api.tree.toggle_help, opts("Help"))
-		-- end,
 		cmd = { "NvimTreeToggle", "NvimTreeFocus" },
 		keys = {
 			{ "<leader>e", "<cmd>NvimTreeToggle<cr>", desc = "Filetree toggle" },
@@ -106,8 +92,8 @@ return {
 			keymaps = {
 				["g?"] = "actions.show_help",
 				["<CR>"] = "actions.select",
-				["<C-s>"] = "actions.select_vsplit",
-				["<C-h>"] = "actions.select_split",
+				["<C-v>"] = "actions.select_vsplit",
+				["<C-s>"] = "actions.select_split",
 				["<C-t>"] = "actions.select_tab",
 				["<C-p>"] = "actions.preview",
 				["<C-c>"] = "actions.close",

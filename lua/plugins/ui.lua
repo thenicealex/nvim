@@ -3,7 +3,7 @@ return {
 		"rcarriga/nvim-notify",
 		keys = {
 			{
-				"<localleader>un",
+				"<localleader>nD",
 				function()
 					require("notify").dismiss({ silent = true, pending = true })
 				end,
@@ -21,9 +21,9 @@ return {
 		},
 		init = function()
 			-- when noice is not enabled, install notify on VeryLazy
-			local Util = require("core.utils")
-			if not Util.has("noice.nvim") then
-				Util.on_very_lazy(function()
+			local util = require("core.utils")
+			if not util.has("noice.nvim") then
+				util.on_very_lazy(function()
 					vim.notify = require("notify")
 				end)
 			end
@@ -69,41 +69,31 @@ return {
 				lsp_doc_border = true,
 			},
 		},
+		-- stylua: ignore
 		keys = {
 			{
-				"<S-Enter>",
-				function()
-					require("noice").redirect(vim.fn.getcmdline())
-				end,
+				"<C-Enter>", function() require("noice").redirect(vim.fn.getcmdline()) end,
 				mode = "c",
 				desc = "Redirect Cmdline",
 			},
 			{
-				"<leader>snl",
-				function()
-					require("noice").cmd("last")
-				end,
+				"<localleader>nl",
+				function() require("noice").cmd("last") end,
 				desc = "Noice Last Message",
 			},
 			{
-				"<leader>snh",
-				function()
-					require("noice").cmd("history")
-				end,
+				"<localleader>nh",
+				function() require("noice").cmd("history") end,
 				desc = "Noice History",
 			},
 			{
-				"<leader>sna",
-				function()
-					require("noice").cmd("all")
-				end,
+				"<localleader>na",
+				function() require("noice").cmd("all") end,
 				desc = "Noice All",
 			},
 			{
-				"<leader>snd",
-				function()
-					require("noice").cmd("dismiss")
-				end,
+				"<localleader>nd",
+				function() require("noice").cmd("dismiss") end,
 				desc = "Dismiss All",
 			},
 			{
@@ -113,9 +103,7 @@ return {
 						return "<c-f>"
 					end
 				end,
-				silent = true,
-				expr = true,
-				desc = "Scroll forward",
+				silent = true, expr = true, desc = "Scroll forward",
 				mode = { "i", "n", "s" },
 			},
 			{
@@ -125,14 +113,10 @@ return {
 						return "<c-b>"
 					end
 				end,
-				silent = true,
-				expr = true,
-				desc = "Scroll backward",
+				silent = true, expr = true, desc = "Scroll backward",
 				mode = { "i", "n", "s" },
 			},
 		},
 	},
-	{'eandrju/cellular-automaton.nvim',
-		cmd = "CellularAutomation",
-	},
+	{ "eandrju/cellular-automaton.nvim", cmd = "CellularAutomation" },
 }

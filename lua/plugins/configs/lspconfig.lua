@@ -67,8 +67,8 @@ if utils.has("lspsaga.nvim") then
 	vim.keymap.set("n", "<leader>lp", "<cmd>Lspsaga show_workspace_diagnostics<cr>", { desc = "Project diagnostics" })
 	vim.keymap.set("n", "<leader>lb", "<cmd>Lspsaga show_buf_diagnostics<cr>", { desc = "Buffer diagnostics" })
 	vim.keymap.set("n", "<leader>lo", "<cmd>Lspsaga show_line_diagnostics<cr>", { desc = "Open diagnostic" })
-	vim.keymap.set("n", "[d", "<cmd>diagnostic_jump_prev<cr>", { desc = "Prev diagnostic" })
-	vim.keymap.set("n", "]d", "<cmd>diagnostic_next_prev", { desc = "Next diagnostic" })
+	vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { desc = "Prev diagnostic" })
+	vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_next_prev", { desc = "Next diagnostic" })
 else
 	vim.keymap.set("n", "<leader>lb", vim.diagnostic.setloclist, { desc = "Buffer diagnostics" })
 	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })

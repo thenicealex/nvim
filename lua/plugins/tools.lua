@@ -136,14 +136,6 @@ return {
 		},
 	},
 	{
-		"folke/neodev.nvim",
-		event = "VeryLazy",
-		opts = {},
-		config = function(_, opts)
-			require("neodev").setup(opts)
-		end,
-	},
-	{
 		"zbirenbaum/copilot.lua",
 		enabled = false,
 		cmd = "Copilot",

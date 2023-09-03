@@ -10,13 +10,12 @@ return {
 		end,
 	},
 	{
-		"j-hui/fidget.nvim",
-		tag = "legacy",
+		"folke/neodev.nvim",
 		event = "LspAttach",
-		enabled = false,
-		opts = {
-			-- options
-		},
+		-- opts = {},
+		-- config = function(_, opts)
+		-- 	require("neodev").setup(opts)
+		-- end,
 	},
 	{
 		"utilyre/barbecue.nvim",

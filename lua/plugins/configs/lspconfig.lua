@@ -27,7 +27,6 @@ capabilities.textDocument.completion.completionItem = {
 		},
 	},
 }
--- ERROR
 lspconfig.pyright.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -36,6 +35,7 @@ lspconfig.clangd.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
+require("neodev").setup({})
 lspconfig.lua_ls.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -50,15 +50,15 @@ lspconfig.lua_ls.setup({
 					"vim",
 				},
 			},
-			workspace = {
-				library = {
-					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
-					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
-					[vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
-				},
-				maxPreload = 100000,
-				preloadFileSize = 10000,
-			},
+			-- workspace = {
+			-- 	library = {
+			-- 		[vim.fn.expand("$VIMRUNTIME/lua")] = true,
+			-- 		[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+			-- 		[vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
+			-- 	},
+			-- 	maxPreload = 100000,
+			-- 	preloadFileSize = 10000,
+			-- },
 		},
 	},
 })

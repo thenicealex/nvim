@@ -1,29 +1,12 @@
 return {
+	{ dir = "D:/workstation/github/onedark-nvim",
+		priority = 1000,
+		enabled = true,
+	},
 	{
 		"folke/tokyonight.nvim",
-		enabled = true,
+		enabled = false,
 		priority = 1000,
 		opts = {},
 	},
-	{ dir = "~/onedark",
-		priority = 1000,
-		enabled = false },
-	{
-		dir = "~/onedark.nvim",
-		enabled = false,
-		priority = 1000,
-		opts = {
-			palette = "onedark",
-			background = {
-				light = "astrolight",
-				dark = "onedark",
-			},
-		},
-		config = function(_, opts)
-			require("onedark").setup(opts)
-		end,
-	},
-	{ "ellisonleao/gruvbox.nvim",
-		enabled = false,
-		priority = 1000 },
 }

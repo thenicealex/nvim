@@ -1,7 +1,7 @@
 require("core")
 require("plugins")
-vim.cmd("colorscheme onedark")
-require("notify")("Hello! Alex, Today is Sunday.")
+vim.cmd("colorscheme tokyonight")
+-- require("notify")("Hello! Alex, Today is Sunday.")
 -- local ic = require("nvim-web-devicons")
 -- local filename = "e.py"
 -- local extension = vim.fn.fnamemodify(filename, ":e")
@@ -10,9 +10,3 @@ require("notify")("Hello! Alex, Today is Sunday.")
 --
 -- print(icon1, icon_color)
 -- print(icon2, icon_hl)
-
-local str = "·nvim"
-local pattern = "·"
-
-local result = str:gsub(pattern, "")
-print(result)

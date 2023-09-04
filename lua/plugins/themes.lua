@@ -1,7 +1,7 @@
 return {
 	{
 		"folke/tokyonight.nvim",
-		enabled = false,
+		enabled = true,
 		priority = 1000,
 		opts = {},
 	},
@@ -10,7 +10,7 @@ return {
 		enabled = false },
 	{
 		dir = "~/onedark.nvim",
-		enabled = true,
+		enabled = false,
 		priority = 1000,
 		opts = {
 			palette = "onedark",
@@ -22,11 +22,6 @@ return {
 		config = function(_, opts)
 			require("onedark").setup(opts)
 		end,
-	},
-	{
-		"olimorris/onedarkpro.nvim",
-		enabled = false,
-		priority = 1000, -- Ensure it loads first
 	},
 	{ "ellisonleao/gruvbox.nvim",
 		enabled = false,

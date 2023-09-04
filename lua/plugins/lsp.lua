@@ -18,25 +18,8 @@ return {
 		-- end,
 	},
 	{ 'Bekaboo/dropbar.nvim',
-	enabled = false,},
-	{
-		"utilyre/barbecue.nvim",
-		name = "barbecue",
-		enabled = false,
 		event = "LspAttach",
-		version = "*",
-		dependencies = { "SmiteshP/nvim-navic" },
-		opts = {
-			exclude_filetypes = {
-				"gitcommit",
-				"toggleterm",
-				"NvimTree",
-			},
-		},
-		config = function(_, opts)
-    require("barbecue").setup(opts)
-  end,
-	},
+	enabled = true,},
 	{
 		"nvimdev/lspsaga.nvim",
 		event = "LspAttach",

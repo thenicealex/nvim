@@ -17,9 +17,7 @@ return {
 		-- 	require("neodev").setup(opts)
 		-- end,
 	},
-	{ 'Bekaboo/dropbar.nvim',
-		event = "LspAttach",
-	enabled = true,},
+	{ "Bekaboo/dropbar.nvim", event = "LspAttach", enabled = false },
 	{
 		"nvimdev/lspsaga.nvim",
 		event = "LspAttach",

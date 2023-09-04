@@ -1,5 +1,4 @@
 require("core.options")
 require("core.mappings")
 require("core.autocmds")
--- vim.cmd("colorscheme tokyonight-moon")
 require("tabufline.lazyload")

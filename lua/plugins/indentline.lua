@@ -2,7 +2,7 @@ return {
 	{
 		"echasnovski/mini.indentscope",
 		version = "*",
-		enabled = true,
+		enabled = false,
 		init = function()
 			vim.api.nvim_create_autocmd("FileType", {
 				pattern = {
@@ -34,7 +34,7 @@ return {
 			require("core.utils").lazy_load("indent-blankline.nvim")
 		end,
 		event = { "BufReadPost", "BufNewFile" },
-		enabled = false,
+		enabled = true,
 		opts = {
 			enabled = true,
 			use_treesitter = true,
@@ -75,7 +75,7 @@ return {
 			},
 		},
 		config = function(_, opts)
-			require("indent_blankline").setup(opts)
+			require("ibl").setup()
 		end,
 	},
 }

@@ -16,13 +16,30 @@ return {
 	},
 	opts = {
 		defaults = {
-			mappings = {
-				i = {
-					-- map actions.which_key to <C-h> (default: <C-/>)
-					-- actions.which_key shows the mappings for your picker,
-					-- e.g. git_{create, delete, ...}_branch for the git_branches picker
-					-- ["<C-h>"] = "which_key",
+			vimgrep_arguments = {
+				"rg",
+				"-L",
+				"--color=never",
+				"--no-heading",
+				"--with-filename",
+				"--line-number",
+				"--column",
+				"--smart-case",
+			},
+			selection_caret = "  ",
+			layout_strategy = "horizontal",
+			layout_config = {
+				horizontal = {
+					prompt_position = "top",
+					preview_width = 0.6,
+					results_width = 0.7,
 				},
+				vertical = {
+					mirror = false,
+				},
+				width = 0.87,
+				height = 0.80,
+				preview_cutoff = 120,
 			},
 		},
 		pickers = {
@@ -42,7 +59,7 @@ return {
 			live_grep = {
 				theme = "dropdown",
 				prompt_title = "",
-				preview_title = '',
+				preview_title = "",
 				prompt_prefix = "Global search> ",
 				layout_config = {
 					width = 0.8,

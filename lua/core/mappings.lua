@@ -6,11 +6,10 @@ local function map(mode, lhs, rhs, opts)
 	vim.keymap.set(mode, lhs, rhs, options)
 end
 
-
 -- General
 -- better up/down
-map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
-map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
+map({ "n", "x", "v" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true })
+map({ "n", "x", "v" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true })
 
 -- Move to window using the <ctrl> hjkl keys
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
@@ -69,6 +68,10 @@ map({ "n", "v" }, "<localleader>cr", "<cmd> set rnu! <CR>", { desc = "Toggle rel
 map({ "n", "v" }, "<localleader>cn", "<cmd> set nu! <CR>", { desc = "Toggle line number" })
 
 map("i", "<M-j>", "<c-o>:call search('}\\|)\\|]\\|>\\|\"', 'cW')<cr><Right>", { desc = "out of right bracket" })
+-- Don't copy the replaced text after pasting in visual mode
+-- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
+map("x", "p", 'p:let @+=@0<CR>:let @"=@0<CR>', { desc = "Dont copy replaced text" })
+map("t", "<C-x>", vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), { desc = "Escape terminal mode" })
 
 -- lazy
 map("n", "<localleader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })

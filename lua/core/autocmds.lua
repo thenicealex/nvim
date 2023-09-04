@@ -7,7 +7,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
   group = augroup("highlight_yank"),
   callback = function()
     vim.highlight.on_yank()
-		vim.api.nvim_exec([[:call system('/mnt/c/windows/system32/clip.exe ',@")]],true)
+		-- vim.api.nvim_exec([[:call system('/mnt/c/windows/system32/clip.exe ',@")]],true)
   end,
 })
 

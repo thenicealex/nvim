@@ -10,14 +10,18 @@ vim.keymap.set({ "i", "s" }, "<S-Tab>", function()
 	luasnip.jump(-1)
 end, { silent = true })
 
-vim.api.nvim_set_hl(0, "MyPmenuSel", { fg = "#efefef", bg = "#2d4d74", bold = true })
-vim.api.nvim_set_hl(0, "MyFloatBorder", { bg = "#1e222a" })
-local border_opts = {
-	border = "rounded",
-	scrollbar = false,
-	-- TODO:
-	winhighlight = "FloatBorder:MyFloatBorder,CursorLine:MyPmenuSel,Search:None",
-}
+local function border(hl_name)
+	return {
+		{ "╭", hl_name },
+		{ "─", hl_name },
+		{ "╮", hl_name },
+		{ "│", hl_name },
+		{ "╯", hl_name },
+		{ "─", hl_name },
+		{ "╰", hl_name },
+		{ "│", hl_name },
+	}
+end
 
 ---@diagnostic disable-next-line: unused-local, unused-function
 local function has_words_before()
@@ -49,15 +53,15 @@ local formatting_style = {
 		-- This concatonates the icons with the name of the item kind
 		vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "?", vim_item.kind)
 		-- vim_item.kind = string.format("%s", kind_icons[vim_item.kind] or "?")
-		-- local function trim(text)
-		-- 	local max = 23
-		-- 	if text and text:len() > max then
-		-- 		-- text = text:gsub("%b()~", "()")
-		-- 		text = text:sub(1, max)
-		-- 	end
-		-- 	return text
-		-- end
-		-- vim_item.abbr = trim(vim_item.abbr):gsub("^%s+", ""):gsub("·", "")
+		local function trim(text)
+			local max = 25
+			if text and text:len() > max then
+				-- text = text:gsub("%b()~", "()")
+				text = text:sub(1, max) .. "..."
+			end
+			return text
+		end
+		vim_item.abbr = trim(vim_item.abbr)
 		-- Source
 		-- vim_item.menu = ({
 		-- 	buffer = "[Buffer]",
@@ -77,13 +81,19 @@ return {
 			luasnip.lsp_expand(args.body)
 		end,
 	},
-	confirm_opts = {
-		behavior = cmp.ConfirmBehavior.Replace,
-		select = false,
+	completion = {
+		completeopt = "menu,menuone",
 	},
 	window = {
-		completion = cmp.config.window.bordered(border_opts),
-		documentation = cmp.config.window.bordered(border_opts),
+		completion = {
+			border = border("CmpBorder"),
+			scrollbar = false,
+			winhighlight = "Normal:CmpPmenu,CursorLine:CmpSel,Search:none",
+		},
+		documentation = {
+			border = border("CmpDocBorder"),
+			winhighlight = "Normal:CmpDoc",
+		},
 	},
 	mapping = {
 		["<Up>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Select }),
@@ -94,9 +104,10 @@ return {
 		["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 		["<M-o>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-		["<CR>"] = cmp.mapping.confirm({ select = false }),
+		["<CR>"] = cmp.mapping.confirm({ select = true }),
 		["<C-x>"] = cmp.mapping(
 			cmp.mapping.complete({
+				---@diagnostic disable-next-line: unknown-diag-code
 				---@diagnostic disable-next-line: missing-fields
 				config = {
 					sources = cmp.config.sources({ { name = "dictionary" } }),
@@ -105,43 +116,35 @@ return {
 			{ "i" }
 		),
 		["<C-y>"] = cmp.config.disable,
-		["Tab"] = cmp.mapping.disable,
-		["<S-Tab>"] = cmp.config.disable,
-		-- ["<Tab>"] = cmp.mapping(function(fallback)
-		-- 	if cmp.visible() then
-		-- 		cmp.select_next_item()
-		-- 	elseif luasnip.expand_or_jumpable() then
-		-- 		luasnip.expand_or_jump()
-		-- 	elseif has_words_before() then
-		-- 		cmp.complete()
-		-- 	else
-		-- 		fallback()
-		-- 	end
-		-- end, { "i", "s" }),
-		-- ["<S-Tab>"] = cmp.mapping(function(fallback)
-		-- 	if cmp.visible() then
-		-- 		cmp.select_prev_item()
-		-- 	elseif luasnip.jumpable(-1) then
-		-- 		luasnip.jump(-1)
-		-- 	else
-		-- 		fallback()
-		-- 	end
-		-- end, { "i", "s" }),
-	},
-	completion = {
-		-- Automatically select the first item
-		completeopt = "menu,menuone,noinsert,noselect",
+		["<Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_next_item()
+			elseif require("luasnip").expand_or_jumpable() then
+				vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-expand-or-jump", true, true, true), "")
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif require("luasnip").jumpable(-1) then
+				vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
 	},
 
 	sources = cmp.config.sources({
 		{
 			name = "nvim_lsp",
-			priority = 1000,
+			priority = 750,
 			-- keyword_length = 3,
 		},
 		{
 			name = "luasnip",
-			priority = 750,
+			priority = 1000,
 			option = { use_show_condition = true },
 			entry_filter = function()
 				local context = require("cmp.config.context")

@@ -1,6 +1,6 @@
 local vim = vim
 local conditions = require("heirline.conditions")
-local utils = require("heirline.utils")
+-- local utils = require("heirline.utils")
 local onedark_colors = {
 	dark = "#282c34",
 	red = "#e06c75",
@@ -202,8 +202,18 @@ local Ruler = {
 	-- %c = column number
 	-- %P = percentage through file of displayed window
 	provider = function()
-		return vim.o.columns > 140 and " Ln %l, Col %c " or " %l:%c %P "
+		return vim.o.columns > 140 and " Ln %l, Col %c %P " or " %l:%c %P "
 	end,
+	on_click = {
+		callback = function()
+			-- If you prefer Lazygit
+			-- use vim.defer_fn() if the callback requires
+			-- opening of a floating window
+			-- (this also applies to telescope)
+			vim.defer_fn(function() end, 100)
+		end,
+		name = "heirline_ruler",
+	},
 }
 
 local Git = {
@@ -214,7 +224,14 @@ local Git = {
 			-- opening of a floating window
 			-- (this also applies to telescope)
 			vim.defer_fn(function()
-				print("hello git")
+				local utils = require("core.utils")
+				if utils.has("toggleterm.nvim") and utils.is_system_win() then
+					local Terminal = require("toggleterm.terminal").Terminal
+					local gitui =
+						Terminal:new({ cmd = "gitui", close_on_exit = true, direction = "float", hidden = true })
+					gitui:toggle()
+				end
+				print("Hello Git")
 			end, 100)
 		end,
 		name = "heirline_git",
@@ -337,15 +354,11 @@ local Diagnostics = {
 	{
 		on_click = {
 			callback = function()
-				-- If you prefer Lazygit
-				-- use vim.defer_fn() if the callback requires
-				-- opening of a floating window
-				-- (this also applies to telescope)
 				vim.defer_fn(function()
 					print("hello git")
 				end, 100)
 			end,
-			name = "heirline_git",
+			name = "heirline_errors",
 		},
 		provider = function(self)
 			-- 0 is just another output, we can decide to print it or not!
@@ -356,15 +369,11 @@ local Diagnostics = {
 	{
 		on_click = {
 			callback = function()
-				-- If you prefer Lazygit
-				-- use vim.defer_fn() if the callback requires
-				-- opening of a floating window
-				-- (this also applies to telescope)
 				vim.defer_fn(function()
 					print("hello git")
 				end, 100)
 			end,
-			name = "heirline_git",
+			name = "heirline_warnings",
 		},
 		provider = function(self)
 			return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
@@ -374,15 +383,11 @@ local Diagnostics = {
 	{
 		on_click = {
 			callback = function()
-				-- If you prefer Lazygit
-				-- use vim.defer_fn() if the callback requires
-				-- opening of a floating window
-				-- (this also applies to telescope)
 				vim.defer_fn(function()
 					print("hello git")
 				end, 100)
 			end,
-			name = "heirline_git",
+			name = "heirline_info",
 		},
 		provider = function(self)
 			return self.info > 0 and (self.info_icon .. self.info .. " ")
@@ -392,15 +397,11 @@ local Diagnostics = {
 	{
 		on_click = {
 			callback = function()
-				-- If you prefer Lazygit
-				-- use vim.defer_fn() if the callback requires
-				-- opening of a floating window
-				-- (this also applies to telescope)
 				vim.defer_fn(function()
 					print("hello git")
 				end, 100)
 			end,
-			name = "heirline_git",
+			name = "heirline_hits",
 		},
 		provider = function(self)
 			return self.hints > 0 and (self.hint_icon .. self.hints)
@@ -411,7 +412,6 @@ local Diagnostics = {
 		provider = " ",
 	},
 }
-
 
 require("heirline").setup({
 	statusline = {

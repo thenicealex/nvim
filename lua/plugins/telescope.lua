@@ -14,6 +14,11 @@ return {
 			desc = "find all file",
 		},
 	},
+	dependencies = {
+		"nvim-lua/plenary.nvim",
+		"nvim-telescope/telescope-file-browser.nvim",
+		"nvim-telescope/telescope-fzy-native.nvim",
+	},
 	opts = {
 		defaults = {
 			vimgrep_arguments = {
@@ -26,7 +31,7 @@ return {
 				"--column",
 				"--smart-case",
 			},
-			selection_caret = "  ",
+			selection_caret = "  ",
 			layout_strategy = "horizontal",
 			layout_config = {
 				horizontal = {
@@ -41,18 +46,18 @@ return {
 				height = 0.80,
 				preview_cutoff = 120,
 			},
+			sorting_strategy = "ascending",
 		},
 		pickers = {
 			find_files = {
-				theme = "dropdown",
-				-- layout_strategy = "vertical",
-				previewer = false,
+				-- theme = "dropdown",
+				-- previewer = false,
 				prompt_title = "",
 				prompt_prefix = "Files> ",
 			},
 			buffers = {
-				theme = "dropdown",
-				previewer = false,
+				-- theme = "dropdown",
+				-- previewer = false,
 				prompt_title = "",
 				prompt_prefix = "Buffers> ",
 			},
@@ -77,15 +82,32 @@ return {
 				},
 			},
 		},
-		extensions = {
-			-- Your extension configuration goes here:
-			-- extension_name = {
-			--   extension_config_key = value,
-			-- }
-			-- please take a look at the readme of the extension you want to configure
-		},
+		extensions = {},
 	},
 	config = function(_, opts)
+		local fb_actions = require("telescope").extensions.file_browser.actions
+		opts.extensions = {
+			fzy_native = {
+				override_generic_sorter = false,
+				override_file_sorter = true,
+			},
+			file_browser = {
+				dir_icon = "󰉋",
+				dir_icon_hl = "TelescopeFileBrowIcon",
+				display_stat = { date = true, size = true, mode = true },
+				mappings = {
+					["n"] = {
+						["c"] = fb_actions.create,
+						["r"] = fb_actions.rename,
+						["d"] = fb_actions.remove,
+						["o"] = fb_actions.open,
+						["h"] = fb_actions.goto_parent_dir,
+					},
+				},
+			},
+		}
 		require("telescope").setup(opts)
+		require("telescope").load_extension("file_browser")
+		require("telescope").load_extension("fzy_native")
 	end,
 }

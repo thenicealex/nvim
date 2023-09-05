@@ -41,4 +41,8 @@ function M.on_very_lazy(fn)
   })
 end
 
+function M.is_system_win()
+  return vim.fn.has('win32') == 1 or vim.fn.has('win64') == 1
+end
+
 return M

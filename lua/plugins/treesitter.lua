@@ -17,6 +17,7 @@ return {
 		ensure_installed = { "c", "cpp", "lua", "python", "markdown" },
 		auto_install = false,
 		highlight = { enable = true },
+		indent = { enable = true },
 		incremental_selection = {
 			enable = true,
 			keymaps = {
@@ -26,9 +27,21 @@ return {
 				node_decremental = "<bs>",
 			},
 		},
-		indent = { enable = true },
+		textobjects = {
+			select = {
+				enable = true,
+				keymaps = {
+					["af"] = "@function.outer",
+					["if"] = "@function.inner",
+					["ac"] = "@class.outer",
+					["ic"] = "@class.inner",
+				},
+			},
+		},
 	},
 	config = function(_, opts)
+		-- vim.opt.foldmethod = "expr"
+		-- vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 		require("nvim-treesitter.configs").setup(opts)
 	end,
 }

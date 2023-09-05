@@ -29,6 +29,7 @@ local function has_words_before()
 	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
 end
 
+---@diagnostic disable-next-line: unknown-diag-code
 ---@diagnostic disable-next-line: missing-fields
 cmp.setup.cmdline({ "/", "?" }, {
 	mapping = cmp.mapping.preset.cmdline(),
@@ -36,6 +37,7 @@ cmp.setup.cmdline({ "/", "?" }, {
 })
 
 -- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+---@diagnostic disable-next-line: unknown-diag-code
 ---@diagnostic disable-next-line: missing-fields
 cmp.setup.cmdline(":", {
 	mapping = cmp.mapping.preset.cmdline(),
@@ -47,6 +49,7 @@ cmp.setup.cmdline(":", {
 local formatting_style = {
 	-- default fields order i.e completion word + item.kind + item.kind icons
 	fields = { "abbr", "kind", "menu" },
+	---@diagnostic disable-next-line: unused-local
 	format = function(entry, vim_item)
 		local kind_icons = require("icons").lspkind
 		-- From kind_icons array
@@ -54,7 +57,7 @@ local formatting_style = {
 		vim_item.kind = string.format("%s %s", kind_icons[vim_item.kind] or "?", vim_item.kind)
 		-- vim_item.kind = string.format("%s", kind_icons[vim_item.kind] or "?")
 		local function trim(text)
-			local max = 25
+			local max = 28
 			if text and text:len() > max then
 				-- text = text:gsub("%b()~", "()")
 				text = text:sub(1, max) .. "..."
@@ -82,7 +85,7 @@ return {
 		end,
 	},
 	completion = {
-		completeopt = "menu,menuone",
+		completeopt = "menu,menuone,noselect",
 	},
 	window = {
 		completion = {
@@ -104,7 +107,7 @@ return {
 		["<C-d>"] = cmp.mapping(cmp.mapping.scroll_docs(4), { "i", "c" }),
 		["<M-o>"] = cmp.mapping(cmp.mapping.complete(), { "i", "c" }),
 		["<C-e>"] = cmp.mapping({ i = cmp.mapping.abort(), c = cmp.mapping.close() }),
-		["<CR>"] = cmp.mapping.confirm({ select = true }),
+		["<CR>"] = cmp.mapping.confirm({ select = false }),
 		["<C-x>"] = cmp.mapping(
 			cmp.mapping.complete({
 				---@diagnostic disable-next-line: unknown-diag-code

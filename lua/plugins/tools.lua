@@ -3,7 +3,7 @@ return {
 	{ "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
 	{
 		"HiPhish/rainbow-delimiters.nvim",
-		-- event = "VeryLazy",
+		event = "VeryLazy",
 	},
 	{
 		"glepnir/flybuf.nvim",
@@ -17,12 +17,8 @@ return {
 		"windwp/nvim-spectre",
 		-- stylua: ignore
 		keys = {
-			{
-				"<localleader>S", '<cmd>lua require("spectre").toggle()<CR>', desc = "Toggle Spectre",
-			},
-			{
-				"<leader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', desc = "Search current word",
-			},
+			{ "<localleader>S", '<cmd>lua require("spectre").toggle()<CR>', desc = "Toggle Spectre", },
+			{ "<localleader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', desc = "Search current word", },
 		},
 		config = function()
 			require("spectre").setup({})
@@ -143,6 +139,26 @@ return {
 			})
 		end,
 	},
-	{ "mg979/vim-visual-multi", lazy = false, },
-	{ "akinsho/toggleterm.nvim",cmd = "ToggleTerm", version = "*", config = true },
+	{ "mg979/vim-visual-multi", 
+		event = "VeryLazy",},
+	{
+		"akinsho/toggleterm.nvim",
+		cmd = "ToggleTerm",
+		version = "*",
+		config = function()
+			local powershell_options = {
+				shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
+				shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
+				shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
+				shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
+				shellquote = "",
+				shellxquote = "",
+			}
+
+			for option, value in pairs(powershell_options) do
+				vim.opt[option] = value
+			end
+			require("toggleterm").setup()
+		end,
+	},
 }

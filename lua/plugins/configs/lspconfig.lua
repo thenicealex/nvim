@@ -1,14 +1,14 @@
 ---@diagnostic disable: undefined-global
 -- Setup language servers.
 local lspconfig = require("lspconfig")
--- local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 local on_attach = function(client, _)
 	client.server_capabilities.documentFormattingProvider = false
 	client.server_capabilities.documentRangeFormattingProvider = false
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
+local capabilities = vim.tbl_deep_extend( 'force', vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
 
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
@@ -69,7 +69,7 @@ if utils.has("lspsaga.nvim") then
 	vim.keymap.set("n", "<leader>lb", "<cmd>Lspsaga show_buf_diagnostics<cr>", { desc = "Buffer diagnostics" })
 	vim.keymap.set("n", "<leader>lo", "<cmd>Lspsaga show_line_diagnostics<cr>", { desc = "Open diagnostic" })
 	vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { desc = "Prev diagnostic" })
-	vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_next_prev", { desc = "Next diagnostic" })
+	vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next", { desc = "Next diagnostic" })
 else
 	vim.keymap.set("n", "<leader>lb", vim.diagnostic.setloclist, { desc = "Buffer diagnostics" })
 	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
@@ -124,6 +124,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		end
 	end,
 })
+
+local sign = function(opts)
+  vim.fn.sign_define(opts.name, {
+    texthl = opts.name,
+    text = opts.text,
+    numhl = ''
+  })
+end
+
+sign({name = 'DiagnosticSignError', text = '✘'})
+sign({name = 'DiagnosticSignWarn', text = '▲'})
+sign({name = 'DiagnosticSignHint', text = '⚑'})
+sign({name = 'DiagnosticSignInfo', text = ''})
 
 vim.diagnostic.config({
 	virtual_text = false,

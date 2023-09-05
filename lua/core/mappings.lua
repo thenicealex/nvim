@@ -72,6 +72,7 @@ map("i", "<M-j>", "<c-o>:call search('}\\|)\\|]\\|>\\|\"', 'cW')<cr><Right>", { 
 -- https://vim.fandom.com/wiki/Replace_a_word_with_yanked_text#Alternative_mapping_for_paste
 map("x", "p", 'p:let @+=@0<CR>:let @"=@0<CR>', { desc = "Dont copy replaced text" })
 map("t", "<C-x>", vim.api.nvim_replace_termcodes("<C-\\><C-N>", true, true, true), { desc = "Escape terminal mode" })
+map("v", "<leader>y", [["+y]], {desc = "Copy in system clipb"})
 
 -- lazy
 map("n", "<localleader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })

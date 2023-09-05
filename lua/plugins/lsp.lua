@@ -18,6 +18,7 @@ return {
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
+		event = "VeryLazy",
 		opts = {},
 		oonfig = function(_, opts)
 			require("mason-lspconfig").setup(opts)

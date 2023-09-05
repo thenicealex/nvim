@@ -56,6 +56,7 @@ lspconfig.lua_ls.setup({
 					[vim.fn.expand("$VIMRUNTIME/lua")] = true,
 					[vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
 					[vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua/lazy"] = true,
+					[vim.fn.stdpath("config") .. "/lua"] = true,
 				},
 				maxPreload = 100000,
 				preloadFileSize = 10000,
@@ -69,7 +70,7 @@ if utils.has("lspsaga.nvim") then
 	vim.keymap.set("n", "<leader>lb", "<cmd>Lspsaga show_buf_diagnostics<cr>", { desc = "Buffer diagnostics" })
 	vim.keymap.set("n", "<leader>lo", "<cmd>Lspsaga show_line_diagnostics<cr>", { desc = "Open diagnostic" })
 	vim.keymap.set("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<cr>", { desc = "Prev diagnostic" })
-	vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next", { desc = "Next diagnostic" })
+	vim.keymap.set("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<cr>", { desc = "Next diagnostic" })
 else
 	vim.keymap.set("n", "<leader>lb", vim.diagnostic.setloclist, { desc = "Buffer diagnostics" })
 	vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev diagnostic" })
@@ -129,14 +130,12 @@ local sign = function(opts)
   vim.fn.sign_define(opts.name, {
     texthl = opts.name,
     text = opts.text,
-    numhl = ''
   })
 end
-
 sign({name = 'DiagnosticSignError', text = '✘'})
-sign({name = 'DiagnosticSignWarn', text = '▲'})
-sign({name = 'DiagnosticSignHint', text = '⚑'})
-sign({name = 'DiagnosticSignInfo', text = ''})
+sign({name = 'DiagnosticSignWarn', text = '▲'}) --  
+sign({name = 'DiagnosticSignHint', text = '💡'}) -- ⚑ 󰛩 
+sign({name = 'DiagnosticSignInfo', text = ' '})
 
 vim.diagnostic.config({
 	virtual_text = false,

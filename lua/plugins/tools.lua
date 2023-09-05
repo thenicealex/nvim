@@ -1,10 +1,8 @@
 return {
 	{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
 	{ "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
-	{
-		"HiPhish/rainbow-delimiters.nvim",
-		event = "VeryLazy",
-	},
+	{ "mg979/vim-visual-multi", event = "VeryLazy" },
+	{ "HiPhish/rainbow-delimiters.nvim", event = "VeryLazy" },
 	{
 		"glepnir/flybuf.nvim",
 		cmd = "FlyBuf",
@@ -17,9 +15,9 @@ return {
 		"windwp/nvim-spectre",
 		-- stylua: ignore
 		keys = {
-			{ "<localleader>S", '<cmd>lua require("spectre").toggle()<CR>', desc = "Toggle Spectre", },
-			{ "<localleader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>', desc = "Search current word", },
-		},
+			{ "<localleader>S", '<cmd>lua require("spectre").toggle()<CR>', desc = "Toggle Spectre" },
+			{ "<localleader>sw", '<cmd>lua require("spectre").open_visual({select_word=true})<CR>',
+				desc = "Search current word" } },
 		config = function()
 			require("spectre").setup({})
 		end,
@@ -47,6 +45,52 @@ return {
 		end,
 		config = function()
 			require("mini.cursorword").setup()
+		end,
+	},
+	{
+		"echasnovski/mini.files",
+		keys = { { "<localleader>ff", "<cmd>lua MiniFiles.open()<cr>", desc = "file browser" } },
+		version = "*",
+		opts = { -- Module mappings created only inside explorer.
+			-- Use `''` (empty string) to not create one.
+			mappings = {
+				close = "q",
+				go_in = "l",
+				go_in_plus = "L",
+				go_out = "h",
+				go_out_plus = "H",
+				reset = "<BS>",
+				reveal_cwd = "@",
+				show_help = "g?",
+				synchronize = "=",
+				trim_left = "<",
+				trim_right = ">",
+			},
+
+			-- General options
+			options = {
+				-- Whether to delete permanently or move into module-specific trash
+				permanent_delete = true,
+				-- Whether to use for editing directories
+				use_as_default_explorer = true,
+			},
+
+			-- Customization of explorer windows
+			windows = {
+				-- Maximum number of windows to show side by side
+				max_number = math.huge,
+				-- Whether to show preview of file/directory under cursor
+				preview = true,
+				-- Width of focused window
+				width_focus = 23,
+				-- Width of non-focused window
+				width_nofocus = 15,
+				-- Width of preview window
+				width_preview = 80,
+			},
+		},
+		config = function(_, opts)
+			require("mini.files").setup(opts)
 		end,
 	},
 	{
@@ -115,50 +159,5 @@ return {
 				desc = "Mark menu",
 			},
 		},
-	},
-	{
-		"zbirenbaum/copilot.lua",
-		enabled = false,
-		cmd = "Copilot",
-		event = "InsertEnter",
-		config = function()
-			require("copilot").setup({
-				suggestion = {
-					enabled = true,
-					auto_trigger = true,
-					debounce = 75,
-					keymap = {
-						accept = "<M-l>",
-						accept_word = false,
-						accept_line = false,
-						next = "<M-]>",
-						prev = "<M-[>",
-						dismiss = "<C-]>",
-					},
-				},
-			})
-		end,
-	},
-	{ "mg979/vim-visual-multi", 
-		event = "VeryLazy",},
-	{
-		"akinsho/toggleterm.nvim",
-		cmd = "ToggleTerm",
-		version = "*",
-		config = function()
-			local powershell_options = {
-				shell = vim.fn.executable("pwsh") == 1 and "pwsh" or "powershell",
-				shellcmdflag = "-NoLogo -NoProfile -ExecutionPolicy RemoteSigned -Command [Console]::InputEncoding=[Console]::OutputEncoding=[System.Text.Encoding]::UTF8;",
-				shellredir = "-RedirectStandardOutput %s -NoNewWindow -Wait",
-				shellpipe = "2>&1 | Out-File -Encoding UTF8 %s; exit $LastExitCode",
-				shellquote = "",
-				shellxquote = "",
-			}
-
-			for option, value in pairs(powershell_options) do
-				vim.opt[option] = value
-			end
-			require("toggleterm").setup()
-		end,
 	},
 }

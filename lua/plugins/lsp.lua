@@ -1,7 +1,7 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
-		event = "VeryLazy",
+		event = {"VeryLazy"},
 		init = function()
 			require("core.utils").lazy_load("nvim-lspconfig")
 		end,

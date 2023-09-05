@@ -413,6 +413,17 @@ local Diagnostics = {
 	},
 }
 
+local Macro = {
+	condition = function(self)
+		self.recording_register = vim.fn.reg_recording()
+		return self.recording_register ~= ""
+	end,
+	provider = function(self)
+		return "  Recording @" .. self.recording_register
+	end,
+	hl = { fg = onedark_colors.purple },
+}
+
 require("heirline").setup({
 	statusline = {
 		ViMode,
@@ -420,6 +431,7 @@ require("heirline").setup({
 		FileFlags,
 		Git,
 		-- SearchCount,
+		Macro,
 
 		Separate,
 

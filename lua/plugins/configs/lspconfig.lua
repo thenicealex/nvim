@@ -110,8 +110,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			vim.keymap.set("n", "gr", vim.lsp.buf.references, get_opts({ desc = "References" }))
 			-- stylua: ignore start
 			vim.keymap.set( "n", "gi", vim.lsp.buf.implementation, get_opts({ desc = "Implementation" }))
-			vim.keymap.set( "n", "<C-k>", vim.lsp.buf.signature_help, get_opts({ desc = "Signature_help" }))
-			vim.keymap.set( "n", "<leader>D", vim.lsp.buf.type_definition, get_opts({ desc = "Type definition" }))
+			vim.keymap.set( "n", "<leader>lk", vim.lsp.buf.signature_help, get_opts({ desc = "Signature_help" }))
+			vim.keymap.set( "n", "<leader>ld", vim.lsp.buf.type_definition, get_opts({ desc = "Type definition" }))
 
 			vim.keymap.set( "n", "<leader>lwa", vim.lsp.buf.add_workspace_folder, get_opts({ desc = "Add workspace folder" }))
 			vim.keymap.set( "n", "<leader>lwr", vim.lsp.buf.remove_workspace_folder, get_opts({ desc = "Remove workspace folder" }))

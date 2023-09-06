@@ -1,5 +1,6 @@
 local vim = vim
 local conditions = require("heirline.conditions")
+local ic = require("icons").others.powerline
 -- local utils = require("heirline.utils")
 local onedark_colors = {
 	dark = "#282c34",
@@ -12,6 +13,14 @@ local onedark_colors = {
 	gray = "#abb2bf",
 	bg = "#1E222A",
 }
+
+local Align = { provider = "%=" }
+
+local Space = setmetatable({ provider = " " }, {
+	__call = function(_, n)
+		return { provider = string.rep(" ", n) }
+	end,
+})
 
 local ViMode = {
 	-- get vim current mode, this information will be required by the provider
@@ -84,7 +93,7 @@ local ViMode = {
 	-- control the padding and make sure our string is always at least 2
 	-- characters long. Plus a nice Icon.
 	provider = function(self)
-		return "  ⚡ " .. self.mode_names[self.mode] .. " "
+		return "⚡ " .. self.mode_names[self.mode]
 	end,
 	-- Same goes for the highlight. Now the foreground will change according to the current mode.
 	hl = function(self)
@@ -106,7 +115,7 @@ local ViMode = {
 local FileInfo = {
 	{
 		provider = function(self)
-			local icon = "󰈚"
+			local icon = "󰈚 "
 			local filename = (vim.fn.expand("%") == "" and "Empty ") or vim.fn.expand("%:t")
 
 			if filename ~= "Empty " then
@@ -116,7 +125,7 @@ local FileInfo = {
 				return self.icon .. " "
 			end
 			return icon
-		end,
+		end, --       󰈚
 		hl = function(self)
 			return { fg = self.icon_color }
 		end,
@@ -124,7 +133,7 @@ local FileInfo = {
 	{
 		provider = function()
 			local filename = (vim.fn.expand("%") == "" and "Empty ") or vim.fn.expand("%:t")
-			return " " .. filename .. " "
+			return filename
 		end,
 	},
 }
@@ -133,7 +142,7 @@ local FileFlags = {
 		condition = function()
 			return vim.bo.modified
 		end,
-		provider = "[+] ",
+		provider = "[+]",
 		hl = { fg = onedark_colors.green },
 	},
 	{
@@ -144,8 +153,6 @@ local FileFlags = {
 		hl = { fg = onedark_colors.orange },
 	},
 }
-
-local Separate = { provider = "%=" }
 
 local FileTab = {
 	condition = function()
@@ -187,10 +194,10 @@ local FileSize = {
 		local fsize = vim.fn.getfsize(vim.api.nvim_buf_get_name(0))
 		fsize = (fsize < 0 and 0) or fsize
 		if fsize < 1024 then
-			return string.format(" %g%s", fsize, suffix[1]) .. " "
+			return string.format(" %g%s", fsize, suffix[1])
 		end
 		local i = math.floor((math.log(fsize) / math.log(1024)))
-		return string.format(" %.2g%s", fsize / math.pow(1024, i), suffix[i + 1]) .. " "
+		return string.format(" %.2g%s", fsize / math.pow(1024, i), suffix[i + 1])
 	end,
 	hl = { fg = onedark_colors.orange },
 }
@@ -206,10 +213,6 @@ local Ruler = {
 	end,
 	on_click = {
 		callback = function()
-			-- If you prefer Lazygit
-			-- use vim.defer_fn() if the callback requires
-			-- opening of a floating window
-			-- (this also applies to telescope)
 			vim.defer_fn(function() end, 100)
 		end,
 		name = "heirline_ruler",
@@ -219,10 +222,6 @@ local Ruler = {
 local Git = {
 	on_click = {
 		callback = function()
-			-- If you prefer Lazygit
-			-- use vim.defer_fn() if the callback requires
-			-- opening of a floating window
-			-- (this also applies to telescope)
 			vim.defer_fn(function()
 				local utils = require("core.utils")
 				if utils.has("toggleterm.nvim") and utils.is_system_win() then
@@ -288,20 +287,55 @@ local Git = {
 }
 ---@diagnostic disable-next-line: unused-local
 local SearchCount = {
-	condition = function()
-		return vim.v.hlsearch ~= 0
-	end,
-	init = function(self)
-		local ok, search = pcall(vim.fn.searchcount)
-		if ok and search.total then
-			self.search = search
+	condition = function(self)
+		if vim.o.columns < 140 then
+			return
 		end
+		local lines = vim.api.nvim_buf_line_count(0)
+		if lines > 50000 then
+			return
+		end
+
+		local query = vim.fn.getreg("/")
+		if query == "" then
+			return
+		end
+
+		if query:find("@") then
+			return
+		end
+
+		local search_count = vim.fn.searchcount({ recompute = 1, maxcount = -1 })
+		local active = false
+		if vim.v.hlsearch and vim.v.hlsearch == 1 and search_count.total > 0 then
+			active = true
+		end
+		if not active then
+			return
+		end
+
+		query = query:gsub([[^\V]], "")
+		query = query:gsub([[\<]], ""):gsub([[\>]], "")
+
+		self.query = query
+		self.count = search_count
+		return true
 	end,
-	provider = function(self)
-		local search = self.search
-		return string.format(" [%d/%d]", search.current, math.min(search.total, search.maxcount))
-	end,
-	hl = { fg = onedark_colors.red },
+	{
+		provider = function(self)
+			return table.concat({
+				" ",
+				self.query,
+				" ",
+				self.count.current,
+				"/",
+				self.count.total,
+				" ",
+			})
+		end,
+		hl = nil, -- your highlight goes here
+	},
+	hl = { fg = onedark_colors.bg, bg = onedark_colors.red },
 }
 
 local LSPActive = {
@@ -419,22 +453,95 @@ local Macro = {
 		return self.recording_register ~= ""
 	end,
 	provider = function(self)
-		return "  Recording @" .. self.recording_register
+		return "  @" .. self.recording_register
 	end,
+	update = {
+		"RecordingEnter",
+		"RecordingLeave",
+	},
 	hl = { fg = onedark_colors.purple },
+}
+
+local Overseer = {
+	condition = function()
+		local ok, _ = pcall(require, "overseer")
+		if ok then
+			return true
+		end
+	end,
+	init = function(self)
+		self.overseer = require("overseer")
+		self.tasks = self.overseer.task_list
+		self.STATUS = self.overseer.constants.STATUS
+	end,
+	static = {
+		symbols = {
+			["FAILURE"] = "  ",
+			["CANCELED"] = "  ",
+			["SUCCESS"] = "  ",
+			["RUNNING"] = " 省",
+		},
+		colors = {
+			["FAILURE"] = "red",
+			["CANCELED"] = "gray",
+			["SUCCESS"] = "green",
+			["RUNNING"] = "yellow",
+		},
+	},
+	{
+		condition = function(self)
+			return #self.tasks.list_tasks() > 0
+		end,
+		{
+			provider = function(self)
+				local tasks_by_status =
+					self.overseer.util.tbl_group_by(self.tasks.list_tasks({ unique = true }), "status")
+
+				for _, status in ipairs(self.STATUS.values) do
+					local status_tasks = tasks_by_status[status]
+					if self.symbols[status] and status_tasks then
+						self.color = self.colors[status]
+						return self.symbols[status]
+					end
+				end
+			end,
+			hl = function(self)
+				return { fg = self.color }
+			end,
+		},
+	},
+}
+
+local Lazy = {
+	condition = require("lazy.status").has_updates,
+	update = { "User", pattern = "LazyUpdate" },
+	provider = function()
+		return " U " .. require("lazy.status").updates() .. " "
+	end,
+	on_click = {
+		callback = function()
+			require("lazy").update()
+		end,
+		name = "update_plugins",
+	},
+	hl = { fg = onedark_colors.red },
 }
 
 require("heirline").setup({
 	statusline = {
+		Space(2),
 		ViMode,
 		FileInfo,
 		FileFlags,
 		Git,
-		-- SearchCount,
+
+		Space,
+		SearchCount,
 		Macro,
 
-		Separate,
+		Align,
 
+		Lazy,
 		Ruler,
 		Diagnostics,
 		LSPActive,
@@ -442,5 +549,6 @@ require("heirline").setup({
 		FileEncoding,
 		FileType,
 		FileSize,
+		Space,
 	},
 })

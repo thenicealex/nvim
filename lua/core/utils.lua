@@ -72,4 +72,65 @@ function M.comment_yank_paste()
 	end
 end
 
+M.task_run = function()
+	local Menu = require("nui.menu")
+	local event = require("nui.utils.autocmd").event
+
+	local menu = Menu({
+		position = "50%",
+		size = {
+			width = 25,
+			height = 5,
+		},
+		border = {
+			style = "single",
+			text = {
+				top = "Task Runner",
+				top_align = "center",
+			},
+		},
+		win_options = {
+			winhighlight = "Normal:Normal,FloatBorder:FloatBorder",
+		},
+	}, {
+		lines = {
+			Menu.item("gcc build and run"),
+			Menu.item("python run"),
+		},
+		max_width = 20,
+		keymap = {
+			focus_next = { "j", "<Down>", "<Tab>" },
+			focus_prev = { "k", "<Up>", "<S-Tab>" },
+			close = { "q", "<C-c>" },
+			submit = { "<CR>", "<Space>" },
+		},
+		on_close = function()
+			print("Menu Closed!")
+		end,
+		on_submit = function(item)
+			local file = vim.fn.expand("%:p")
+			local output = vim.fn.fnamemodify(file, ":t:r")
+			if item.text == "gcc build and run" then
+				local cmd = "gcc "
+					.. file
+					.. " -o "
+					.. output
+					.. " && ./"
+					.. output
+					.. ".exe"
+					.. " && rm "
+					.. output
+					.. ".exe"
+				require("toggleterm").exec(cmd)
+			elseif item.text == "python run" then
+				local cmd = "pyhon " .. file
+				require("toggleterm").exec(cmd)
+			end
+		end,
+	})
+
+	-- mount the component
+	menu:mount()
+end
+
 return M

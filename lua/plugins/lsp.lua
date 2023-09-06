@@ -1,7 +1,7 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
-		event = {"VeryLazy"},
+		event = { "VeryLazy" },
 		init = function()
 			require("core.utils").lazy_load("nvim-lspconfig")
 		end,
@@ -36,10 +36,31 @@ return {
 		-- end,
 	},
 	{
+		"utilyre/barbecue.nvim",
+		name = "barbecue",
+		event = "VeryLazy",
+		version = "*",
+		dependencies = {
+			"SmiteshP/nvim-navic",
+			"nvim-tree/nvim-web-devicons", -- optional dependency
+		},
+		opts = {
+			-- configurations go here
+		},
+	},
+	{
 		"Bekaboo/dropbar.nvim",
-		enabled = true,
+		enabled = false,
 		config = function()
 			require("dropbar").setup({
+				general = {
+					enable = function(buf, win)
+						return not vim.api.nvim_win_get_config(win).zindex
+							and vim.bo[buf].buftype ~= "help"
+							and vim.api.nvim_buf_get_name(buf) ~= ""
+							and not vim.wo[win].diff
+					end,
+				},
 				icons = {
 					ui = {
 						bar = {

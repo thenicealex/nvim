@@ -110,8 +110,9 @@ M.task_run = function()
 		on_submit = function(item)
 			local file = vim.fn.expand("%:p")
 			local output = vim.fn.fnamemodify(file, ":t:r")
+			local cmd = ""
 			if item.text == "gcc build and run" then
-				local cmd = "gcc "
+				cmd = "gcc "
 					.. file
 					.. " -o "
 					.. output
@@ -121,11 +122,21 @@ M.task_run = function()
 					.. " && rm "
 					.. output
 					.. ".exe"
-				require("toggleterm").exec(cmd)
 			elseif item.text == "python run" then
-				local cmd = "pyhon " .. file
-				require("toggleterm").exec(cmd)
+				cmd = "python " .. file
 			end
+			vim.defer_fn(function()
+				local utils = require("core.utils")
+				if utils.has("toggleterm.nvim") and utils.is_system_win() then
+					local Terminal = require("toggleterm.terminal").Terminal:new({
+						cmd = cmd,
+						close_on_exit = false,
+						direction = "vertical",
+						hidden = true,
+					})
+					Terminal:toggle()
+				end
+			end, 100)
 		end,
 	})
 

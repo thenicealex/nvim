@@ -1,6 +1,6 @@
 return {
 	"zbirenbaum/copilot.lua",
-	enabled = true,
+	enabled = require("core.config").copilot.enabled,
 	cmd = "Copilot",
 	event = "InsertEnter",
 	config = function()

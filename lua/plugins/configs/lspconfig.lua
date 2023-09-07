@@ -3,12 +3,15 @@
 local lspconfig = require("lspconfig")
 local cmp_capabilities = require("cmp_nvim_lsp").default_capabilities()
 
-local on_attach = function(client, _)
+local on_attach = function(client, bufnr)
 	client.server_capabilities.documentFormattingProvider = false
 	client.server_capabilities.documentRangeFormattingProvider = false
+	if client.server_capabilities.inlayHintProvider then
+		vim.lsp.inlay_hint(bufnr, true)
+	end
 end
 
-local capabilities = vim.tbl_deep_extend( 'force', vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
+local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
 
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
@@ -41,6 +44,7 @@ lspconfig.lua_ls.setup({
 	capabilities = capabilities,
 	settings = {
 		Lua = {
+			hint = { enable = false },
 			completion = {
 				callSnippet = "Replace",
 			},
@@ -126,17 +130,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 	end,
 })
 
-local sign = function(opts)
-  vim.fn.sign_define(opts.name, {
-    texthl = opts.name,
-    text = opts.text,
-  })
+local diag_icon = {
+	Error = "✘",
+	Warn = "▲", -- 
+	Hint = "💡", -- ⚑ 󰛩
+	Info = " ",
+}
+for name, icon in pairs(diag_icon) do
+	local dname = "DiagnosticSign" .. name
+	vim.fn.sign_define(dname, {
+		texthl = dname,
+		text = icon,
+	})
 end
-sign({name = 'DiagnosticSignError', text = '✘'})
-sign({name = 'DiagnosticSignWarn', text = '▲'}) --  
-sign({name = 'DiagnosticSignHint', text = '💡'}) -- ⚑ 󰛩 
-sign({name = 'DiagnosticSignInfo', text = ' '})
-
 vim.diagnostic.config({
 	virtual_text = false,
 	update_in_insert = true,

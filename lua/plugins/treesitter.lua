@@ -14,7 +14,7 @@ return {
 	opts = {
 		autotag = { enable = true },
 		context_commentstring = { enable = true, enable_autocmd = false },
-		ensure_installed = { "c", "cpp", "lua", "python", "markdown" },
+		ensure_installed = { "c", "cpp", "lua", "python", "markdown", "json", "javascript", "html" },
 		auto_install = false,
 		highlight = { enable = true },
 		indent = { enable = true },
@@ -30,11 +30,43 @@ return {
 		textobjects = {
 			select = {
 				enable = true,
+				lookahead = true,
 				keymaps = {
+					["aa"] = "@parameter.outer",
+					["ia"] = "@parameter.inner",
 					["af"] = "@function.outer",
 					["if"] = "@function.inner",
 					["ac"] = "@class.outer",
 					["ic"] = "@class.inner",
+				},
+				move = {
+					enable = true,
+					set_jumps = true, -- whether to set jumps in the jumplist
+					goto_next_start = {
+						["]m"] = "@function.outer",
+						["]]"] = "@class.outer",
+					},
+					goto_next_end = {
+						["]M"] = "@function.outer",
+						["]["] = "@class.outer",
+					},
+					goto_previous_start = {
+						["[m"] = "@function.outer",
+						["[["] = "@class.outer",
+					},
+					goto_previous_end = {
+						["[M"] = "@function.outer",
+						["[]"] = "@class.outer",
+					},
+				},
+				swap = {
+					enable = true,
+					swap_next = {
+						["<localleader>a"] = "@parameter.inner",
+					},
+					swap_previous = {
+						["<localleader>A"] = "@parameter.inner",
+					},
 				},
 			},
 		},

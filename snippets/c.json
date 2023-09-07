@@ -19,7 +19,7 @@
       "int main(int argc, char *argv[])",
       "{$0",
       "",
-      "\treturn EXIT_SUCCESS;",
+      "\treturn 0;",
       "}"
     ],
     "description": "Standard starter template for a tiny C program"

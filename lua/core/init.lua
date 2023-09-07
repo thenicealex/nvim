@@ -1,16 +1,15 @@
-local load = function(name)
-  package.loaded[name] = nil
-  require(name)
-end
 local module = {
 	"options",
 	"mappings",
 	"autocmds",
-	"neovide",
 }
 for _, v in ipairs(module) do
 	require("core." .. v)
-	-- load("core." .. v)
+end
+
+-- load neovide config
+if require("core.config").neovide then
+	require("core.neovide")
 end
 
 local plugins_ok, _ = pcall(require, "core.lazy")

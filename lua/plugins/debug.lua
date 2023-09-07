@@ -9,6 +9,7 @@
 return {
 	-- NOTE: Yes, you can install new plugins here!
 	"mfussenegger/nvim-dap",
+	enabled = false,
 	init = function()
 		require("core.utils").lazy_load("nvim-dap")
 	end,

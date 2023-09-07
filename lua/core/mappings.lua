@@ -88,4 +88,4 @@ map("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<localleader>bo", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<localleader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 
-map("n", "<localleader>zz", "<cmd>lua require('core.utils').task_run()<cr>", { desc = "test" })
+map("n", "<localleader>rc", "<cmd>lua require('core.utils').task_run()<cr>", { desc = "run code" })

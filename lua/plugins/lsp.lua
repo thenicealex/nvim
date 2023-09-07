@@ -1,39 +1,24 @@
 return {
 	{
 		"neovim/nvim-lspconfig",
-		event = { "VeryLazy" },
+		event = { "BufReadPre", "BufNewFile" },
+		dependencies = {
+			{ "folke/neodev.nvim", opts = {} },
+			{"williamboman/mason.nvim", config = true},
+			{"williamboman/mason-lspconfig.nvim"},
+			{
+				"hrsh7th/cmp-nvim-lsp",
+				cond = function()
+					return require("core.utils").has("nvim-cmp")
+				end,
+			},
+		},
 		init = function()
 			require("core.utils").lazy_load("nvim-lspconfig")
 		end,
 		config = function()
 			require("plugins.configs.lspconfig")
 		end,
-	},
-	{
-		"williamboman/mason.nvim",
-		opts = {}, -- pyright clandg
-		config = function(_, opts)
-			require("mason").setup(opts)
-		end,
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		event = "VeryLazy",
-		opts = {},
-		oonfig = function(_, opts)
-			require("mason-lspconfig").setup(opts)
-		end,
-	},
-	{
-		"folke/neodev.nvim",
-		event = "LspAttach",
-		init = function()
-			require("core.utils").lazy_load("neodev.nvim")
-		end,
-		-- opts = {},
-		-- config = function(_, opts)
-		-- 	require("neodev").setup(opts)
-		-- end,
 	},
 	{
 		"utilyre/barbecue.nvim",
@@ -44,9 +29,7 @@ return {
 			"SmiteshP/nvim-navic",
 			"nvim-tree/nvim-web-devicons", -- optional dependency
 		},
-		opts = {
-			-- configurations go here
-		},
+		opts = {},
 	},
 	{
 		"Bekaboo/dropbar.nvim",

@@ -1,15 +1,16 @@
+local th = require("core.config")
 return {
 	{
 		dir = "D:/workstation/github/onedark-nvim",
 		priority = 1000,
-		enabled = true,
+		enabled = th.theme.onedark,
 		config = function()
 			vim.cmd("colorscheme onedark")
 		end,
 	},
 	{
 		"folke/tokyonight.nvim",
-		enabled = false,
+		enabled = th.theme.tokyonight,
 		priority = 1000,
 		opts = {},
 		config = function()

@@ -62,7 +62,7 @@ local formatting_style = {
 				-- text = text:gsub("%b()~", "()")
 				text = text:sub(1, max) .. "..."
 			end
-			return text
+			return text:gsub("%s+", "")
 		end
 		vim_item.abbr = trim(vim_item.abbr)
 		-- Source

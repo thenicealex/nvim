@@ -112,10 +112,17 @@ return {
 				-- miDebuggerPath = "lldb.exe"
 			},
 		}
+		setupCommands = {
+			{
+				text = "-enable-pretty-printing",
+				description = "enable pretty printing",
+				ignoreFailures = false,
+			},
+		}
 
 		dap.configurations.c = dap.configurations.cpp
-		vim.fn.sign_define('DapBreakpoint',{ text ='🟥', texthl ='', linehl ='', numhl =''})
-		vim.fn.sign_define('DapStopped',{ text ='▶️', texthl ='', linehl ='', numhl =''})
+		vim.fn.sign_define("DapBreakpoint", { text = "🚩", texthl = "", linehl = "", numhl = "" })
+		vim.fn.sign_define("DapStopped", { text = "▶️", texthl = "", linehl = "", numhl = "" })
 		-- Install golang specific config
 		-- require('dap-go').setup()
 	end,

@@ -10,11 +10,13 @@ return {
 			"hrsh7th/cmp-cmdline",
 			{
 				"uga-rosa/cmp-dictionary",
-				opts = {},
+				opts = {
+					spelllang = {en = vim.fn.stdpath("config") .. "/my.dict"},
+				},
 				config = function(_, opts)
 					local cmp_dic = require("cmp_dictionary")
-					cmp_dic.setup(opts)
-					cmp_dic.switcher({ spelllang = { en = "~/american_english.dic" } })
+					cmp_dic.setup({})
+					cmp_dic.switcher(opts)
 				end,
 			},
 		},
@@ -32,7 +34,7 @@ return {
 		event = "InsertEnter",
 		config = function()
 			-- vscode format
-			require("luasnip.loaders.from_vscode").lazy_load({paths="./snippets"})
+			require("luasnip.loaders.from_vscode").lazy_load({ paths = "./snippets" })
 
 			vim.api.nvim_create_autocmd("InsertLeave", {
 				callback = function()

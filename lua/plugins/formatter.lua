@@ -10,13 +10,13 @@ return {
 				args = { "--style={BasedOnStyle: Google, IndentWidth: 4}" },
 				stdin = true,
 				ignore_patterns = { "neovim", "vim" },
-			})
+			}):lint('clang-tidy')
 			ft("cpp"):fmt({
 				cmd = "clang-format",
 				args = { "--style={BasedOnStyle: Google, IndentWidth: 4}" },
 				stdin = true,
 				ignore_patterns = { "neovim", "vim" },
-			})
+			}):lint('clang-tidy')
 			ft("python"):fmt({
 				cmd = "black",
 				stdin = true,

@@ -23,6 +23,7 @@ return {
 		defaults = {
 			vimgrep_arguments = {
 				"rg",
+				"--glob=!*.dict",
 				"-L",
 				"--color=never",
 				"--no-heading",

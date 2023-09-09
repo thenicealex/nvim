@@ -2,18 +2,17 @@ local module = {
 	"options",
 	"mappings",
 	"autocmds",
+	"lazy",
 }
-for _, v in ipairs(module) do
-	require("core." .. v)
+for _, source in ipairs(module) do
+	local status_ok, fault = pcall(require, "core." .. source)
+	if not status_ok then
+		vim.api.nvim_err_writeln("Failed to load " .. source .. "\n\n" .. fault)
+	end
 end
 
 -- load neovide config
 if require("core.config").neovide then
 	require("core.neovide")
-end
-
-local plugins_ok, _ = pcall(require, "core.lazy")
-if not plugins_ok then
-	return
 end
 require("tabufline.lazyload")

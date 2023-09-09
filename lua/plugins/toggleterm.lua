@@ -23,6 +23,10 @@ return {
 			width = math.ceil(vim.o.columns * 0.8),
 			height = math.ceil(vim.o.columns * 0.2),
 		},
+		on_create = function()
+			vim.opt.foldcolumn = "0"
+			vim.opt.signcolumn = "no"
+		end,
 	},
 	config = function(_, opts)
 		local powershell_options = {

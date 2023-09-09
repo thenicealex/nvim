@@ -25,9 +25,10 @@ return {
 				side = "left",
 				width = 30,
 				preserve_window_proportions = true,
+				signcolumn = "yes",
 			},
 			git = {
-				enable = false,
+				enable = true,
 				ignore = true,
 			},
 			filesystem_watchers = {
@@ -42,19 +43,19 @@ return {
 				root_folder_label = false,
 				highlight_git = false,
 				highlight_opened_files = "none",
-
+				indent_width = 2,
 				indent_markers = {
-					enable = false,
+					enable = true,
+					inline_arrows = true,
 				},
-
 				icons = {
+					git_placement = "after",
 					show = {
 						file = true,
 						folder = true,
 						folder_arrow = true,
-						git = false,
+						git = true,
 					},
-
 					glyphs = {
 						default = "󰈚",
 						symlink = "",

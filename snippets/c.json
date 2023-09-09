@@ -43,14 +43,14 @@
       "int main(int argc, char *argv[])",
       "{$0",
       "",
-      "\treturn EXIT_SUCCESS;",
+      "\treturn 0;",
       "}"
     ],
     "description": "Standard main() snippet"
   },
   "main(void) template": {
     "prefix": "mainn",
-    "body": ["int main(void)", "{$0", "", "\treturn EXIT_SUCCESS;", "}"],
+    "body": ["int main(void)", "{$0", "", "\treturn 0;", "}"],
     "description": "No-args main() snippet"
   },
   "#include <...>": {

@@ -1,6 +1,7 @@
+local M = {}
 local vim = vim
 local conditions = require("heirline.conditions")
-local ic = require("icons").others.powerline
+-- local ic = require("icons").others.powerline
 -- local utils = require("heirline.utils")
 local onedark_colors = {
 	dark = "#282c34",
@@ -93,7 +94,7 @@ local ViMode = {
 	-- control the padding and make sure our string is always at least 2
 	-- characters long. Plus a nice Icon.
 	provider = function(self)
-		return "⚡ " .. self.mode_names[self.mode]
+		return "⚡ ".. self.mode_names[self.mode]
 	end,
 	-- Same goes for the highlight. Now the foreground will change according to the current mode.
 	hl = function(self)
@@ -196,6 +197,8 @@ local FileSize = {
 		if fsize < 1024 then
 			return string.format(" %g%s", fsize, suffix[1])
 		end
+		---@diagnostic disable-next-line: param-type-mismatch
+		---@diagnostic disable-next-line: param-type-mismatch
 		local i = math.floor((math.log(fsize) / math.log(1024)))
 		return string.format(" %.2g%s", fsize / math.pow(1024, i), suffix[i + 1])
 	end,
@@ -355,6 +358,7 @@ local LSPActive = {
 	-- Or complicate things a bit and get the servers names
 	provider = function()
 		local names = {}
+		---@diagnostic disable-next-line: deprecated
 		for _, server in pairs(vim.lsp.get_active_clients({ bufnr = 0 })) do
 			table.insert(names, server.name)
 		end
@@ -462,93 +466,28 @@ local Macro = {
 	hl = { fg = onedark_colors.purple },
 }
 
-local Overseer = {
-	condition = function()
-		local ok, _ = pcall(require, "overseer")
-		if ok then
-			return true
-		end
-	end,
-	init = function(self)
-		self.overseer = require("overseer")
-		self.tasks = self.overseer.task_list
-		self.STATUS = self.overseer.constants.STATUS
-	end,
-	static = {
-		symbols = {
-			["FAILURE"] = "  ",
-			["CANCELED"] = "  ",
-			["SUCCESS"] = "  ",
-			["RUNNING"] = " 省",
-		},
-		colors = {
-			["FAILURE"] = "red",
-			["CANCELED"] = "gray",
-			["SUCCESS"] = "green",
-			["RUNNING"] = "yellow",
-		},
-	},
-	{
-		condition = function(self)
-			return #self.tasks.list_tasks() > 0
-		end,
-		{
-			provider = function(self)
-				local tasks_by_status =
-					self.overseer.util.tbl_group_by(self.tasks.list_tasks({ unique = true }), "status")
+M.statusline = {
+	Space(2),
+	ViMode,
+  Space,
+	FileInfo,
+	FileFlags,
+	Git,
 
-				for _, status in ipairs(self.STATUS.values) do
-					local status_tasks = tasks_by_status[status]
-					if self.symbols[status] and status_tasks then
-						self.color = self.colors[status]
-						return self.symbols[status]
-					end
-				end
-			end,
-			hl = function(self)
-				return { fg = self.color }
-			end,
-		},
-	},
+	Space,
+	SearchCount,
+	Macro,
+
+	Align,
+
+	Ruler,
+	Diagnostics,
+	LSPActive,
+	FileTab,
+	FileEncoding,
+	FileType,
+	FileSize,
+	Space,
 }
 
-local Lazy = {
-	condition = require("lazy.status").has_updates,
-	update = { "User", pattern = "LazyUpdate" },
-	provider = function()
-		return " U " .. require("lazy.status").updates() .. " "
-	end,
-	on_click = {
-		callback = function()
-			require("lazy").update()
-		end,
-		name = "update_plugins",
-	},
-	hl = { fg = onedark_colors.red },
-}
-
-require("heirline").setup({
-	statusline = {
-		Space(2),
-		ViMode,
-		FileInfo,
-		FileFlags,
-		Git,
-
-		Space,
-		SearchCount,
-		Macro,
-
-		Align,
-
-		Lazy,
-		Ruler,
-		Diagnostics,
-		LSPActive,
-		FileTab,
-		FileEncoding,
-		FileType,
-		FileSize,
-		Space,
-	},
-})
+return M

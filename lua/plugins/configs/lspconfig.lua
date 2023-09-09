@@ -30,11 +30,24 @@ capabilities.textDocument.completion.completionItem = {
 		},
 	},
 }
+capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
+
+
 lspconfig.pyright.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
 })
 lspconfig.clangd.setup({
+	cmd = {
+		"clangd",
+    "--background-index",
+    "--suggest-missing-includes",
+    "--clang-tidy",
+		"--query-driver=C:/Program Files/JetBrains/CLion 2022.3.1/bin/mingw/bin/g++.exe",
+	},
 	on_attach = on_attach,
 	capabilities = capabilities,
 })

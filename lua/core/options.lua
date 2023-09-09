@@ -1,13 +1,12 @@
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
-vim.g.icons_enabled = true
-vim.g.autopairs_enabled = true
 
 local o = vim.opt
 
 o.mouse = "a"
-o.relativenumber = true
+o.relativenumber = false
 o.number = true
+o.expandtab = true
 o.shiftwidth = 2
 o.tabstop = 2
 o.termguicolors = true
@@ -19,7 +18,10 @@ o.signcolumn = "yes"
 o.swapfile = false
 o.autoread = true
 o.clipboard = "unnamedplus"
--- o.mousemoveevent = true
--- o.cmdheight = 0
--- o.list = true
-
+o.splitkeep = "screen"
+-- o.foldenable = true
+-- o.foldcolumn = "1"
+-- o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+-- o.foldlevelstart = 99
+-- o.foldtext = " "
+-- o.fillchars = { eob = " ", fold = " ", foldopen = "", foldsep = " ", foldclose = "" }

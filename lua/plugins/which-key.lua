@@ -4,7 +4,7 @@ return {
     vim.o.timeout = true
     vim.o.timeoutlen = 300
   end,
-	keys = { "<leader>", ',','"', "'", "`", "c", "v", "g" },
+	keys = { "<leader>", ',','"', "'", "`", "c", "v", "g","z" },
 	cmd = "WhichKey",
 	opts = {
 		plugins = { spelling = true },

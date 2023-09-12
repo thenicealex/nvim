@@ -2,6 +2,7 @@ return {
 	{
 		dir = "D:/workstation/github/leetup.nvim",
 		enabled = true,
+    cmd = "Leetup",
 		dependencies = {
 			{ "m00qek/baleia.nvim", enabled = true },
 		},
@@ -25,6 +26,7 @@ return {
 	{
 
 		dir = "D:/workstation/github/leetcode-nvim",
+    enabled = false,
 		opts = {
 			language = "cpp",
 		},

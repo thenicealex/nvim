@@ -10,10 +10,10 @@ return {
 	-- NOTE: Yes, you can install new plugins here!
 	"mfussenegger/nvim-dap",
 	enabled = true,
-	init = function()
-		require("core.utils").lazy_load("nvim-dap")
-	end,
-	event = "VeryLazy",
+  cmd = {"DapContinue"},
+	-- init = function()
+	-- 	require("core.utils").lazy_load("nvim-dap")
+	-- end,
 	-- NOTE: And you can specify dependencies as well
 	dependencies = {
 		{
@@ -45,7 +45,7 @@ return {
 		-- Installs the debug adapters for you
 		{
 			"jay-babu/mason-nvim-dap.nvim",
-			dependencies = "mason.nvim",
+			-- dependencies = "mason.nvim",
 			cmd = { "DapInstall", "DapUninstall" },
 		},
 		{

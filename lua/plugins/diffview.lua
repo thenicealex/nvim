@@ -1,6 +1,6 @@
 return {
   "sindrets/diffview.nvim",
-  command = "DiffviewOpen",
+  cmd = "DiffviewOpen",
   opts = {},
   config = function (_, opts)
     require("diffview").setup(opts)

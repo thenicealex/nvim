@@ -78,7 +78,7 @@ map("v", "<localleader>/", function()
 end, { desc = "Comment yank paste" })
 
 -- lazy
-map("n", "<localleader>l", "<cmd>Lazy<cr>", { desc = "Lazy" })
+map("n", "<localleader>L", "<cmd>Lazy<cr>", { desc = "Lazy" })
 
 -- Buffer
 map("n", "<S-TAB>", "<cmd>bprevious<cr>", { desc = "Prev buffer" })

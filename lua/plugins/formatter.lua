@@ -21,6 +21,7 @@ return {
 				cmd = "black",
 				stdin = true,
 			})
+      -- cargo install stylua --features lua52
 			ft("lua"):fmt({
 				cmd = "stylua",
 				args = { "-" },

@@ -26,7 +26,7 @@ return {
 	{
 
 		dir = "D:/workstation/github/leetcode-nvim",
-    enabled = false,
+    enabled = true,
 		opts = {
 			language = "cpp",
 		},

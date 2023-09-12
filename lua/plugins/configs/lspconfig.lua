@@ -35,7 +35,6 @@ capabilities.textDocument.foldingRange = {
 	lineFoldingOnly = true,
 }
 
-
 lspconfig.pyright.setup({
 	on_attach = on_attach,
 	capabilities = capabilities,
@@ -43,9 +42,9 @@ lspconfig.pyright.setup({
 lspconfig.clangd.setup({
 	cmd = {
 		"clangd",
-    "--background-index",
-    "--suggest-missing-includes",
-    "--clang-tidy",
+		"--background-index",
+		"--suggest-missing-includes",
+		"--clang-tidy",
 		"--query-driver=C:/Program Files/JetBrains/CLion 2022.3.1/bin/mingw/bin/g++.exe",
 	},
 	on_attach = on_attach,
@@ -114,9 +113,17 @@ vim.api.nvim_create_autocmd("LspAttach", {
 			end
 			return opts
 		end
-		if utils.has("Lspsaga.nvim") then
+		if utils.has("lspsaga.nvim") then
 			-- stylua: ignore
-		  vim.keymap.set( { "n", "v" }, "<leader>la", "<cmd>Lspsaga code_action", get_opts({ desc = "Code action" }))
+		  vim.keymap.set( { "n", "v" }, "<leader>la", "<cmd>Lspsaga code_action<cr>", get_opts({ desc = "Code action" }))
+			vim.keymap.set("n", "K", "<cmd>Lspsaga hover_doc<cr>", get_opts({ desc = "Hover" }))
+			vim.keymap.set("n", "gd", "<cmd>Lspsaga peek_definition<cr>", get_opts({ desc = "Definition" }))
+			vim.keymap.set("n", "gD", "<cmd>Lspsaga goto_definition<cr>", get_opts({ desc = "Declaration" }))
+			vim.keymap.set("n", "gr", "<cmd>Lspsaga finder<cr>", get_opts({ desc = "References" }))
+			-- stylua: ignore start
+			vim.keymap.set( "n", "gi", vim.lsp.buf.implementation, get_opts({ desc = "Implementation" }))
+			vim.keymap.set( "n", "<leader>lk", vim.lsp.buf.signature_help, get_opts({ desc = "Signature_help" }))
+			vim.keymap.set( "n", "<leader>ld", "<cmd>Lspsaga peek_type_definition<cr>", get_opts({ desc = "Type definition" }))
 		else
 			vim.keymap.set("n", "<leader>lr", vim.lsp.buf.rename, get_opts({ desc = "Rename" }))
 			-- stylua: ignore

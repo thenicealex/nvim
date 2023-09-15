@@ -17,7 +17,7 @@ return {
 	dependencies = {
 		"nvim-lua/plenary.nvim",
 		"nvim-telescope/telescope-file-browser.nvim",
-		"nvim-telescope/telescope-fzy-native.nvim",
+		{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 	},
 	opts = {
 		defaults = {
@@ -51,35 +51,37 @@ return {
 		},
 		pickers = {
 			find_files = {
-				-- theme = "dropdown",
-				-- previewer = false,
 				prompt_title = "",
 				prompt_prefix = "Files> ",
 			},
 			buffers = {
-				-- theme = "dropdown",
-				-- previewer = false,
 				prompt_title = "",
 				prompt_prefix = "Buffers> ",
 			},
 			live_grep = {
-				theme = "dropdown",
 				prompt_title = "",
-				preview_title = "",
-				prompt_prefix = "Global search> ",
+				prompt_prefix = "Global Search> ",
+				layout_strategy = "vertical",
 				layout_config = {
-					width = 0.8,
-					height = 0.5,
+					vertical = {
+						width = 0.9,
+						height = 0.9,
+						preview_height = 0.6,
+						preview_cutoff = 0,
+					},
 				},
-			},
-			current_buffer_fuzzy_find = {
-				theme = "dropdown",
-				prompt_title = "",
-				preview_title = "",
-				prompt_prefix = "Search> ",
-				layout_config = {
-					width = 0.8,
-					height = 0.4,
+				current_buffer_fuzzy_find = {
+					prompt_title = "",
+					prompt_prefix = "Search> ",
+					layout_strategy = "vertical",
+					layout_config = {
+						vertical = {
+							width = 0.9,
+							height = 0.9,
+							preview_height = 0.6,
+							preview_cutoff = 0,
+						},
+					},
 				},
 			},
 		},
@@ -87,11 +89,12 @@ return {
 	},
 	config = function(_, opts)
 		local fb_actions = require("telescope").extensions.file_browser.actions
+		local trouble = require("trouble.providers.telescope")
+		opts.defaults.mappings = {
+			i = { ["<c-t>"] = trouble.open_with_trouble },
+			n = { ["<c-t>"] = trouble.open_with_trouble },
+		}
 		opts.extensions = {
-			fzy_native = {
-				override_generic_sorter = false,
-				override_file_sorter = true,
-			},
 			file_browser = {
 				dir_icon = "󰉋",
 				dir_icon_hl = "TelescopeFileBrowIcon",
@@ -106,9 +109,16 @@ return {
 					},
 				},
 			},
+			fzf = {
+				fuzzy = true, -- false will only do exact matching
+				override_generic_sorter = true, -- override the generic sorter
+				override_file_sorter = true, -- override the file sorter
+				case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+				-- the default case_mode is "smart_case"
+			},
 		}
 		require("telescope").setup(opts)
 		require("telescope").load_extension("file_browser")
-		require("telescope").load_extension("fzy_native")
+		require("telescope").load_extension("fzf")
 	end,
 }

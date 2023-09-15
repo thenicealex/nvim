@@ -17,6 +17,7 @@
   "flash.nvim": { "branch": "main", "commit": "8a8e74922a383c253b7f92e042b749150140c8d1" },
   "flybuf.nvim": { "branch": "main", "commit": "fe1fbd9699f6988a1db3b2e2ffa599154784c6e1" },
   "gitsigns.nvim": { "branch": "main", "commit": "907ae8636016aab2f283576fc60d46ca3427e579" },
+  "guard-collection": { "branch": "main", "commit": "fb9f543f600236d311d74d3440077fbcdd6adec9" },
   "guard.nvim": { "branch": "main", "commit": "e5241f3e55103f1cd0b296ad76aa135c4da102ad" },
   "harpoon": { "branch": "master", "commit": "21f4c47c6803d64ddb934a5b314dcb1b8e7365dc" },
   "heirline.nvim": { "branch": "master", "commit": "7f1e805dfc001d5dbb7d894105063f463f6c7dcc" },

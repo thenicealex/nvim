@@ -3,6 +3,9 @@ return {
 		"nvimdev/guard.nvim",
 		cmd = { "GuardFmt", "GuardEnable", "GuardDisable" },
 		keys = { { "<localleader>fm", "<cmd>GuardFmt<cr>", desc = "Format file" } },
+		dependencies = {
+			"nvimdev/guard-collection",
+		},
 		config = function()
 			local ft = require("guard.filetype")
 			ft("c"):fmt({
@@ -10,18 +13,18 @@ return {
 				args = { "--style={BasedOnStyle: Google, IndentWidth: 4}" },
 				stdin = true,
 				ignore_patterns = { "neovim", "vim" },
-			}):lint('clang-tidy')
+			}):lint("clang-tidy")
 			ft("cpp"):fmt({
 				cmd = "clang-format",
 				args = { "--style={BasedOnStyle: Google, IndentWidth: 4}" },
 				stdin = true,
 				ignore_patterns = { "neovim", "vim" },
-			}):lint('clang-tidy')
+			}):lint("clang-tidy")
 			ft("python"):fmt({
 				cmd = "black",
 				stdin = true,
 			})
-      -- cargo install stylua --features lua52
+			-- cargo install stylua --features lua52
 			ft("lua"):fmt({
 				cmd = "stylua",
 				args = { "-" },

@@ -43,7 +43,7 @@ local ViMode = {
 			niI = "Ni",
 			niR = "Nr",
 			niV = "Nv",
-			nt = "Nt",
+			nt = "N-TERM",
 			v = "VISUAL",
 			vs = "Vs",
 			V = "V-LINE",
@@ -94,7 +94,7 @@ local ViMode = {
 	-- control the padding and make sure our string is always at least 2
 	-- characters long. Plus a nice Icon.
 	provider = function(self)
-		return "⚡ ".. self.mode_names[self.mode]
+		return "⚡ " .. self.mode_names[self.mode]
 	end,
 	-- Same goes for the highlight. Now the foreground will change according to the current mode.
 	hl = function(self)
@@ -304,6 +304,7 @@ local SearchCount = {
 			return
 		end
 
+		---@diagnostic disable-next-line: need-check-nil, param-type-mismatch
 		if query:find("@") then
 			return
 		end
@@ -317,6 +318,7 @@ local SearchCount = {
 			return
 		end
 
+		---@diagnostic disable-next-line: need-check-nil, param-type-mismatch
 		query = query:gsub([[^\V]], "")
 		query = query:gsub([[\<]], ""):gsub([[\>]], "")
 
@@ -469,7 +471,7 @@ local Macro = {
 M.statusline = {
 	Space(2),
 	ViMode,
-  Space,
+	Space,
 	FileInfo,
 	FileFlags,
 	Git,

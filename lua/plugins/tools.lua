@@ -2,7 +2,7 @@ return {
 	{ "folke/lazy.nvim" },
 	{ "nvim-lua/plenary.nvim", event = "VeryLazy" },
 	{ "nvim-tree/nvim-web-devicons", event = "VeryLazy" },
-	{ "mg979/vim-visual-multi", keys = { { mode = {"n", "v"}, "<c-n>" } } },
+	{ "mg979/vim-visual-multi", keys = { { mode = { "n", "v" }, "<c-n>" } } },
 	{ "HiPhish/rainbow-delimiters.nvim", event = "VeryLazy" },
 	{
 		"glepnir/flybuf.nvim",

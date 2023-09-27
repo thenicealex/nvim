@@ -28,3 +28,8 @@ o.foldlevelstart = 99
 -- o.fillchars = { eob = " ", fold = " ", foldopen = "", foldsep = " ", foldclose = "" }
 -- o.statuscolumn='%s%l%=%C'
 -- vim.o.statuscolumn='%=%l%s%{foldlevel(v:lnum) > 0 ? (foldlevel(v:lnum) > foldlevel(v:lnum - 1) ? (foldclosed(v:lnum) == -1 ? "-" : "+") : "│") : " " }'
+
+if vim.fn.executable('rg') == 1 then
+  o.grepformat = '%f:%l:%c:%m,%f:%l:%m'
+  o.grepprg = 'rg --vimgrep --no-heading --smart-case'
+end

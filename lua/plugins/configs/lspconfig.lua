@@ -13,7 +13,6 @@ end
 
 local capabilities = vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), cmp_capabilities)
 
-
 capabilities.textDocument.completion.completionItem = {
 	documentationFormat = { "markdown", "plaintext" },
 	snippetSupport = true,
@@ -43,6 +42,7 @@ lspconfig.pyright.setup({
 lspconfig.clangd.setup({
 	cmd = {
 		"clangd",
+    "--completion-style=detailed",
 		"--background-index",
 		"--suggest-missing-includes",
 		"--clang-tidy",
@@ -148,14 +148,23 @@ vim.api.nvim_create_autocmd("LspAttach", {
 				vim.lsp.buf.format({ async = true })
 			end, get_opts({ desc = "Lsp format" }))
 		end
+		if vim.lsp.inlay_hint then
+			vim.keymap.set("n", "<leader>li", function()
+				vim.lsp.inlay_hint(0, nil)
+			end, get_opts({ desc = "Inlay hint" }))
+		end
 	end,
 })
 
 local diag_icon = {
-	Error = "✘",
-	Warn = "▲", -- 
-	Hint = "💡", -- ⚑ 󰛩
-	Info = " ",
+	-- Error = "✘",
+	-- Warn = "▲", -- 
+	-- Hint = "💡", -- ⚑ 󰛩
+	-- Info = " ",
+	Error = "E",
+	Warn = "W",
+	Hint = "H",
+	Info = "I",
 }
 for name, icon in pairs(diag_icon) do
 	local dname = "DiagnosticSign" .. name

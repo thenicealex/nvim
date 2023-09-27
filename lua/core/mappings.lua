@@ -85,3 +85,12 @@ map("n", "[b", "<cmd>bprevious<cr>", { desc = "Prev buffer" })
 map("n", "]b", "<cmd>bnext<cr>", { desc = "Next buffer" })
 map("n", "<localleader>bo", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
 map("n", "<localleader>`", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+
+map('n', '@', function()
+    local count = vim.v.count1
+    local register = vim.fn.getcharstr()
+    vim.opt.lazyredraw = true
+    vim.api.nvim_command(string.format('noa norm! %d@%s', count, register))
+    vim.opt.lazyredraw = false
+    vim.api.nvim_command 'silent update'
+end, { noremap = true })

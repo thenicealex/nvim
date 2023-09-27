@@ -1,8 +1,19 @@
 return {
 	{
-		dir = "D:/workstation/github/leetup.nvim",
+		dir = "D:/workstation/github/leetcode-nvim",
 		enabled = true,
-    cmd = "Leetup",
+		cmd = { "LCTEST", "LCList", "LCTest", "LCSubmit", "LCDisplay" },
+		opts = {
+			language = "cpp",
+		},
+		config = function(_, opts)
+			require("leetcode").setup(opts)
+		end,
+	},
+	{
+		dir = "D:/workstation/github/leetup.nvim",
+		enabled = false,
+		cmd = "Leetup",
 		dependencies = {
 			{ "m00qek/baleia.nvim", enabled = true },
 		},
@@ -21,18 +32,6 @@ return {
 		},
 		config = function(_, opts)
 			require("leetup").setup(opts)
-		end,
-	},
-	{
-
-		dir = "D:/workstation/github/leetcode-nvim",
-    enabled = true,
-    cmd = {"LeetcodeList","LeetcodeTest", "LeetcodeSubmit","LeetcodeDisplay"},
-		opts = {
-			language = "cpp",
-		},
-		config = function(_, opts)
-			require("leetcode").setup(opts)
 		end,
 	},
 }

@@ -28,7 +28,7 @@ return {
 			["<localleader>x"] = { name = "+diagnostics/quickfix" },
 			["<localleader>n"] = { name = "+notice" },
 			["<localleader>r"] = { name = "+run code" },
-			["<localleader>rc"] = { name = "+c/cpp" },
+			-- ["<localleader>rc"] = { name = "+c/cpp" },
 		},
 	},
 	config = function(_, opts)

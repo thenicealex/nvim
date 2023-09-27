@@ -59,15 +59,6 @@ return {
 						["[]"] = "@class.outer",
 					},
 				},
-				swap = {
-					enable = true,
-					swap_next = {
-						["<localleader>a"] = "@parameter.inner",
-					},
-					swap_previous = {
-						["<localleader>A"] = "@parameter.inner",
-					},
-				},
 			},
 		},
 	},

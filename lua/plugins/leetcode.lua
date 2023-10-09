@@ -2,7 +2,7 @@ return {
 	{
 		dir = "D:/workstation/github/leetcode-nvim",
 		enabled = true,
-		cmd = { "LCTEST", "LCList", "LCTest", "LCSubmit", "LCDisplay" },
+		cmd = { "LCode" },
 		opts = {
 			language = "cpp",
 		},

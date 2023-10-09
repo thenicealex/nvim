@@ -17,7 +17,6 @@ return {
 		},
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-telescope/telescope-file-browser.nvim",
 			{ "nvim-telescope/telescope-fzf-native.nvim", build = "make" },
 		},
 		opts = {
@@ -97,20 +96,6 @@ return {
 				n = { ["<c-t>"] = trouble.open_with_trouble },
 			}
 			opts.extensions = {
-				file_browser = {
-					dir_icon = "󰉋",
-					dir_icon_hl = "TelescopeFileBrowIcon",
-					display_stat = { date = true, size = true, mode = true },
-					mappings = {
-						["n"] = {
-							["c"] = fb_actions.create,
-							["r"] = fb_actions.rename,
-							["d"] = fb_actions.remove,
-							["o"] = fb_actions.open,
-							["h"] = fb_actions.goto_parent_dir,
-						},
-					},
-				},
 				fzf = {
 					fuzzy = true, -- false will only do exact matching
 					override_generic_sorter = true, -- override the generic sorter
@@ -120,7 +105,6 @@ return {
 				},
 			}
 			require("telescope").setup(opts)
-			require("telescope").load_extension("file_browser")
 			require("telescope").load_extension("fzf")
 		end,
 	},
